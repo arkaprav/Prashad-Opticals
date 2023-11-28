@@ -28,7 +28,7 @@ const electronHandler = {
     ) {
       ipcRenderer
         .invoke(channel, data)
-        .then(func(res))
+        .then((res) => func(res))
         .catch((err) => {
           console.log(err);
         });
