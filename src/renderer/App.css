@@ -225,3 +225,56 @@ button{
   width: 140px;
   margin-right: 10px;
 }
+
+.search .searchBar input{
+  font-size: 15px;
+  padding: 10px 15px;
+  margin-right: 10px;
+  width: 400px;
+  border: 1px solid #acacac;
+  border-radius: 20px;
+}
+.search .searchResults{
+  position: absolute;
+  width: 400.5px;
+  border: 1px solid #acacac;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top: none;
+  margin-top: -16.5px;
+  padding: 20px 15px;
+  padding-top: 40px;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.search .searchResults::-webkit-scrollbar {
+  width: 12px;
+}
+
+.search .searchResults::-webkit-scrollbar-track {
+  -webkit-box-shadow: 0 0 6px rgba(0,0,0, 0.1);
+  border-radius: 10px;
+}
+
+.search .searchResults::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1);
+}
+
+.search .searchResults .searchLine{
+  font-size: 20px;
+  padding: 10px 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.search .searchResults .searchLine:hover{
+  background-color: rgb(47, 154, 224);
+  color: #fff;
+}
+
+.search .searchResults .no-search {
+  font-size: 20px;
+  padding: 10px 5px;
+}
