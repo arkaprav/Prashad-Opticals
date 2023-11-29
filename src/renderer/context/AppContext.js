@@ -134,16 +134,19 @@ function Provider({ children }) {
 
   //customers
 
-  const addCustomers = (name, address, mail, mobile) => {
+  const addCustomers = async (name, address, mail, mobile) => {
     const data = {
       name,
       address,
       mail,
       mobile,
     };
-    setTimeout(() => {
+    await setTimeout(() => {
       window.electron.ipcRenderer.invoke('addCustomers', data, (args) => {
-        const lastIndex = customers[customers.length - 1].ID;
+        let lastIndex = 0;
+        if (customers.length > 0) {
+          lastIndex = customers[customers.length - 1].ID;
+        }
         const { affectedRows, insertId } = args;
         if (affectedRows === 1) {
           if (insertId !== lastIndex) {

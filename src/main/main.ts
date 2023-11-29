@@ -133,7 +133,7 @@ const queries = [
   'CREATE DATABASE IF NOT EXISTS optical_store',
   'USE optical_store',
   'CREATE TABLE IF NOT EXISTS frames(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, code VARCHAR(255), name VARCHAR(255), brand VARCHAR(255), gender VARCHAR(255), color VARCHAR(255), size INT, type VARCHAR(255), shape VARCHAR(255), material VARCHAR(255), temple VARCHAR(255), bridge_size VARCHAR(255), hsn_code VARCHAR(255), tax INT, base_price INT, purchase_price INT, retail_price INT, discount_price INT, inventory INT)',
-  'CREATE TABLE IF NOT EXISTS customers(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255), mail VARCHAR(255), mobile INT, orders INT)',
+  'CREATE TABLE IF NOT EXISTS customers(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255), mail VARCHAR(255), mobile VARCHAR(255), orders INT)',
   'CREATE TABLE IF NOT EXISTS orders(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, createdAt VARCHAR(255), products VARCHAR(5000), extraField VARCHAR(5000), orderTotal INT, orderDiscount INT, discountedPrize INT, amountPaid INT, customerID INT)',
 ];
 

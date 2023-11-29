@@ -204,3 +204,24 @@ button{
   margin: 10px 0px;
   margin-right: 30px;
 }
+
+.customerField{
+  display: flex;
+  margin: 10px 100px;
+  gap: 50px;
+}
+.customerField select{
+  border: 1px solid #acacac;
+  border-radius: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.customerField .new-customer input{
+  font-size: 15px;
+  padding: 8px 15px;
+  border: 1px solid #acacac;
+  border-radius: 30px;
+  width: 140px;
+  margin-right: 10px;
+}
