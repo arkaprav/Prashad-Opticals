@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useApp } from '../../../../../context/AppContext';
 
-export default function OrderCustomerTable({ customerId }) {
+export default function OrderCustomerTable({ customerID }) {
   const { customers } = useApp();
   const [orderCustomer, setOrderCustomer] = useState(
     customers.filter((customer) => {
-      return customer.ID === customerId;
+      return customer.ID === customerID;
     }),
   );
-  console.log(orderCustomer);
   useEffect(() => {
     setOrderCustomer(
       customers.filter((customer) => {
-        return customer.ID === customerId;
+        return customer.ID === customerID;
       })[0],
     );
-  }, [customerId]);
+  }, [customerID]);
   return (
     <div className="products">
       <table>

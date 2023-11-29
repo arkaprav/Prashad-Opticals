@@ -188,7 +188,7 @@ ipcMain.handle('addFrames', async (event, args) => {
 
 ipcMain.handle('updateInventoryFrames', async (event, args) => {
   const { ID, inventory } = args;
-  const query = `UPDATE SET inventory='${inventory}' WHERE ID=${ID}`;
+  const query = `UPDATE frames SET inventory='${inventory}' WHERE ID=${ID};`;
   return new Promise((res, rej) => {
     con.query(query, (err, rows) => {
       if (err) rej(err);
@@ -232,7 +232,7 @@ ipcMain.handle('addCustomers', async (event, args) => {
 
 ipcMain.handle('updateCustomerOrders', (event, args) => {
   const { ID, no_of_orders } = args;
-  const updateCustomerOrders = `UPDATE SET orders='${no_of_orders} WHERE ID=${ID};`;
+  const updateCustomerOrders = `UPDATE customers SET orders='${no_of_orders}' WHERE ID=${ID};`;
   return new Promise((res, rej) => {
     con.query(updateCustomerOrders, (err, rows) => {
       if (err) rej(err);
@@ -252,6 +252,26 @@ ipcMain.handle('fetchOrders', async (event, args) => {
     });
   });
 });
+
+ipcMain.handle('addOrder', (event, args) => {
+  const {
+    createdAt,
+    products,
+    extraFields,
+    orderTotal,
+    orderDiscount,
+    discountedPrize,
+    amountPaid,
+    customerID,
+  }= args;
+  const addOrder = `INSERT INTO orders(createdAt, products, extraField, orderTotal, orderDiscount, discountedPrize, amountPaid, customerID) VALUES('${createdAt}', '${products}', '${extraFields}', '${orderTotal}', '${orderDiscount}', '${discountedPrize}', '${amountPaid}', '${customerID}');`;
+  return new Promise((res, rej) => {
+    con.query(addOrder, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+})
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even

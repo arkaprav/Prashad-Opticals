@@ -186,6 +186,74 @@ function Provider({ children }) {
     }, 1);
   };
 
+  //orders
+
+  const addOrder = async (
+    createdAt,
+    products,
+    extraFields,
+    orderTotal,
+    orderDiscount,
+    discountedPrize,
+    amountPaid,
+    customerID,
+  ) => {
+    const data = {
+      createdAt,
+      products,
+      extraFields,
+      orderTotal,
+      orderDiscount,
+      discountedPrize,
+      amountPaid,
+      customerID,
+    };
+    const prodData = products;
+    const passData = {
+      createdAt,
+      products: JSON.stringify(products),
+      extraFields: JSON.stringify(extraFields),
+      orderTotal,
+      orderDiscount,
+      discountedPrize,
+      amountPaid,
+      customerID,
+    };
+    let updateInventory = [];
+    for (let i = 0; i < prodData.length; i++) {
+      if (prodData[i].type === 'Frames') {
+        const [prod] = frames.filter((frame) => {
+          return frame.ID === prodData[i].ID;
+        });
+        const newInventory = prod.inventory - 1;
+        const inventoryData = { ID: prodData[i].ID, newInventory };
+        updateInventory.push(inventoryData);
+      }
+    }
+    const [cust] = customers.filter((customer) => {
+      return customer.ID === customerID;
+    });
+    const updateOrders = { ID: customerID, no_of_orders: cust.orders + 1 };
+    await setTimeout(async () => {
+      window.electron.ipcRenderer.invoke('addOrder', passData, async (args) => {
+        const { affectedRows, insertId } = args;
+        if (affectedRows === 1) {
+          passData.ID = insertId;
+          console.log(passData);
+          setOrders([...orders, passData]);
+          for (let i = 0; i < updateInventory.length; i++) {
+            updateInventoryFrames(
+              updateInventory[i].ID,
+              updateInventory[i].newInventory,
+            );
+          }
+          updateCustomerOrders(updateOrders.ID, updateOrders.no_of_orders);
+        }
+      });
+    }, 1);
+    return true;
+  };
+
   return (
     <appContext.Provider
       value={{
@@ -194,6 +262,7 @@ function Provider({ children }) {
         deleteFrame,
         updateInventoryFrames,
         orders,
+        addOrder,
         customers,
         addCustomers,
         updateCustomerOrders,

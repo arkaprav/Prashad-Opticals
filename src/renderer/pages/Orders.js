@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import Layout from '../components/Layout';
 import AddNewOrder from '../components/Orders/AddNewOrder/AddNewOrder';
+import OrderTable from '../components/Orders/OrderTable/OrderTable';
 
 export default function Orders() {
   const [searchName, setSearchName] = useState('');
@@ -27,29 +28,17 @@ export default function Orders() {
   return (
     <Layout>
       <div ref={parent}>
-        <div className="top" ref={parent}>
-          <div className="searchBar">
-            <input
-              type="text"
-              name="search"
-              value={searchName}
-              onChange={handleSearch}
-              placeholder="Search Orders..."
-            />
-            {searchName !== '' && (
-              <button type="submit" onClick={handleReset}>
-                Reset
-              </button>
-            )}
-          </div>
+        <div className="top-order" ref={parent}>
           <div className="add">
             <button type="submit" onClick={handleAddOrderChange}>
               + Add Order
             </button>
           </div>
         </div>
-        {addOrder && <AddNewOrder handleCancel={handleAddOrderCancel} />}
-        {searchName}
+        {addOrder === true && (
+          <AddNewOrder handleCancel={handleAddOrderCancel} />
+        )}
+        <OrderTable searchName={searchName} />
       </div>
     </Layout>
   );

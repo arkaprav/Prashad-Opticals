@@ -1,46 +1,51 @@
-import { useEffect, useState } from 'react';
-import SearchResults from './SearchResults';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useEffect, useState } from 'react';
+import FramesSearchResults from './FrameSearchResults';
 
-export default function ExistingUser({ handleAddCustomer }) {
+export default function FramesSearchField({ handleAddFrames }) {
   const [searchName, setSearchName] = useState('');
   const [parent, enable] = useAutoAnimate({ duration: 350 });
-  const [tempcustId, setTempCustId] = useState(0);
+  const [tempProdId, setTempProdId] = useState(0);
+  const [tempProdPrice, setTempProdPrice] = useState(0);
   useEffect(() => {
     enable(true);
   }, [parent]);
 
   const handleAdd = () => {
-    handleAddCustomer(tempcustId);
-    setTempCustId(0);
+    handleAddFrames(tempProdId, tempProdPrice);
     setSearchName('');
+    setTempProdId(0);
   };
 
-  const handleSelect = (ID, searchRes) => {
-    console.log(ID);
-    setTempCustId(ID);
+  const handleSelect = (ID, searchRes, itemPrice) => {
+    setTempProdId(ID);
+    setTempProdPrice(itemPrice);
     setSearchName(searchRes);
   };
 
   const handleSearch = (e) => {
     setSearchName(e.target.value);
-    setTempCustId(0);
+    setTempProdId(0);
+    setTempProdPrice(0);
   };
+
   const handleReset = () => {
-    setTempCustId(0);
     setSearchName('');
+    setTempProdId(0);
+    setTempProdPrice(0);
   };
+
   return (
-    <div className="search" ref={parent}>
+    <div className="search product" ref={parent} style={{ marginLeft: '68px' }}>
       <div className="searchBar" ref={parent}>
         <input
           type="text"
           name="search"
           value={searchName}
           onChange={handleSearch}
-          placeholder="Search Customers..."
+          placeholder="Search Frames..."
         />
-        {tempcustId !== 0 && (
+        {tempProdId !== 0 && (
           <button type="submit" onClick={handleAdd}>
             Add
           </button>
@@ -51,8 +56,12 @@ export default function ExistingUser({ handleAddCustomer }) {
           </button>
         )}
       </div>
-      {searchName !== '' && tempcustId === 0 && (
-        <SearchResults searchName={searchName} handleSelect={handleSelect} />
+      {}
+      {searchName !== '' && tempProdId === 0 && (
+        <FramesSearchResults
+          searchName={searchName}
+          handleSelect={handleSelect}
+        />
       )}
     </div>
   );
