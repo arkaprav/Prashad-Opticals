@@ -73,8 +73,8 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: 1700,
+    height: 1200,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
@@ -134,15 +134,124 @@ const queries = [
   'USE optical_store',
   'CREATE TABLE IF NOT EXISTS frames(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, code VARCHAR(255), name VARCHAR(255), brand VARCHAR(255), gender VARCHAR(255), color VARCHAR(255), size INT, type VARCHAR(255), shape VARCHAR(255), material VARCHAR(255), temple VARCHAR(255), bridge_size VARCHAR(255), hsn_code VARCHAR(255), tax INT, base_price INT, purchase_price INT, retail_price INT, discount_price INT, inventory INT)',
   'CREATE TABLE IF NOT EXISTS customers(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255), mail VARCHAR(255), mobile INT, orders INT)',
-  'CREATE TABLE IF NOT EXISTS orders(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, createdAt VARCHAR(255), products VARCHAR(5000), extraField VARCHAR(5000), orderTotal INT, orderDiscount INT, discountedPrize INT, amountPaid INT, customerID INT)'
+  'CREATE TABLE IF NOT EXISTS orders(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, createdAt VARCHAR(255), products VARCHAR(5000), extraField VARCHAR(5000), orderTotal INT, orderDiscount INT, discountedPrize INT, amountPaid INT, customerID INT)',
 ];
 
 queries.forEach(async (query) => {
   await con.query(query, (err, res, fields) => {
-    if(err) throw err;
+    if (err) throw err;
     console.log(res);
-  })
-})
+  });
+});
+
+//frames
+
+ipcMain.handle('fetchFrames', async (event, args) => {
+  const query = `SELECT * FROM frames;`;
+  return new Promise((res, rej) => {
+    con.query(query, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('addFrames', async (event, args) => {
+  const {
+    code,
+    name,
+    brand,
+    gender,
+    color,
+    size,
+    type,
+    shape,
+    material,
+    temple,
+    bridge_size,
+    hsn_code,
+    tax,
+    base_price,
+    purchase_price,
+    retail_price,
+    discount_price,
+    inventory,
+  } = args;
+  const addFrames = `INSERT INTO frames(code, name, brand, gender, color, size, type, shape, material, temple, bridge_size, hsn_code, tax, base_price, purchase_price, retail_price, discount_price, inventory) VALUES('${code}','${name}','${brand}','${gender}','${color}','${size}','${type}','${shape}','${material}','${temple}','${bridge_size}','${hsn_code}','${tax}','${base_price}','${purchase_price}','${retail_price}','${discount_price}','${inventory}')`;
+  return new Promise((res, rej) => {
+    con.query(addFrames, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('updateInventoryFrames', async (event, args) => {
+  const { ID, inventory } = args;
+  const query = `UPDATE SET inventory='${inventory}' WHERE ID=${ID}`;
+  return new Promise((res, rej) => {
+    con.query(query, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('deleteFrame', (event, args) =>  {
+  const deleteFrame = `DELETE FROM frames WHERE ID=${args};`;
+  return new Promise((res, rej) => {
+    con.query(deleteFrame, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+//customer
+
+ipcMain.handle('fetchCustomers', async (event, args) => {
+  const query = `SELECT * FROM customers;`;
+  return new Promise((res, rej) => {
+    con.query(query, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('addCustomers', async (event, args) => {
+  const { name, address, mail, mobile } = args;
+  const addCustomers = `INSERT INTO customers(name, address, mail, mobile, orders) values('${name}','${address}','${mail}','${mobile}', '0')`;
+  return new Promise((res, rej) => {
+    con.query(addCustomers, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('updateCustomerOrders', (event, args) => {
+  const { ID, no_of_orders } = args;
+  const updateCustomerOrders = `UPDATE SET orders='${no_of_orders} WHERE ID=${ID};`;
+  return new Promise((res, rej) => {
+    con.query(updateCustomerOrders, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+//orders
+
+ipcMain.handle('fetchOrders', async (event, args) => {
+  const query = `SELECT * FROM orders;`;
+  return new Promise((res, rej) => {
+    con.query(query, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even

@@ -1,62 +1,206 @@
-/*
- * @NOTE: Prepend a `~` to css file paths that are in your node_modules
- *        See https://github.com/webpack-contrib/sass-loader#imports
- */
-body {
-  position: relative;
-  color: white;
-  height: 100vh;
-  background: linear-gradient(
-    200.96deg,
-    #fedc2a -29.09%,
-    #dd5789 51.77%,
-    #7a2c9e 129.35%
-  );
-  font-family: sans-serif;
-  overflow-y: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+*, html, body{
+  margin: 0px;
+  padding: 0px;
 }
-
-button {
-  background-color: white;
+#root{
+  display: flex;
+  flex-direction: row;
+  margin:0px;
+  padding: 0px;
+}
+.sidebar{
+  display: flex;
+  flex-direction: column;
+  padding: 10px 30px;
+  background-color: #1b1b1b;
+  height: 1000px;
+  margin: 0px;
+  color: #e1e1e1;
+}
+a{
+  text-decoration: none;
+  color: #1b1b1b;
+}
+.sidebar a{
+  color: #e1e1e1 !important;
+  font-size: 20px;
   padding: 10px 20px;
+  margin-left: 15px;
+  transition: all 0.3s;
+}
+.sidebar a:hover{
+  font-size: 22px;
+  background-color: #2e2e2e;
+  border: #2e2e2e;
   border-radius: 10px;
-  border: none;
-  appearance: none;
-  font-size: 1.3rem;
-  box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12),
-    0px 18px 88px -4px rgba(24, 39, 75, 0.14);
-  transition: all ease-in 0.1s;
-  cursor: pointer;
-  opacity: 0.9;
 }
-
-button:hover {
-  transform: scale(1.05);
-  opacity: 1;
+.sidebar h3{
+  padding: 15px;
+  font-size: 25px;
 }
-
-li {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-  height: fit-content;
-  width: fit-content;
-  margin: 10px;
-}
-
-a:hover {
-  opacity: 1;
-  text-decoration: none;
-}
-
-.Hello {
+.login{
+  margin: 200px auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
+  flex-direction: column;
+  padding: 30px;
+  background-color: #c4c4c4;
+  border: 1px solid #a3a3a3;
+  border-radius: 20px;
+}
+.login input{
+  width: 300px;
+  border: 1px solid #000;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin: 10px 5px;
+}
+
+
+button{
+  padding: 8px 12px;
+  font-size: 16px;
+  background-color: black;
+  color: white;
+  border: 3px solid #000;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: 0px 2px;
+}
+
+.login button{
+  width: 70px;
+  margin: 5px auto;
+  padding: 5px 2px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background-color: #000;
+  color: #fff;
+  font-weight: 600;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.login button:hover{
+  background-color: #fff;
+  color: #000;
+}
+.login p{
+  margin: 1px auto;
+  transition: all 0.3s;
+}
+.login p a:hover{
+  color:#e1e1e1;
+}
+.top{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80vw;
+}
+.top .searchBar{
+  padding: 10px;
+  padding-right: 30px;
+  margin: 10px 30px;
+}
+.top .searchBar input{
+  width: 500px;
+  padding: 10px 20px;
+  margin: 10px;
+  margin-left: 30px;
+  margin-right: 3px;
+  border: 1px solid #acacac;
+  border-radius: 30px;
+  font-size: 18px;
+}
+.top .add button{
+  font-size: 16px;
+  padding: 10px 15px;
+  margin: 30px;
+  background-color: #000;
+  color: white;
+  border: 3px solid #000;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.add-product{
+  height: 350px;
+}
+.add-product .input-fields{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 30px;
+  margin: 30px 80px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  gap: 10px;
+}
+.add-product .input-fields input{
+  font-size: 17px;
+  padding: 5px 15px;
+  border: 1px solid #acacac;
+  border-radius: 30px;
+  flex: 25%;
+}
+.add-product .buttons{
+  display: flex;
+  float: right;
+  column-gap: 10px;
+  padding: 10px;
+  margin: 10px;
+  margin-right: 100px;
+}
+.add-product .buttons button{
+  padding: 8px 15px;
+  font-size: 16px;
+  background-color: black;
+  color: white;
+  border: 3px solid #000;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.products {
+  width: 1100px;
+}
+.products table{
+  width: 100%;
+  margin: 10px 100px;
+}
+.products table thead{
+  font-size: 15px;
+  background-color: black;
+  color: white;
+}
+.products table thead th {
+  padding: 10px 0px;
+}
+.products table tbody tr td{
+  font-size: 15px;
+  padding: 10px 0px;
+  text-align: center;
+}
+
+.products table tbody tr td button{
+  font-size: 12px;
+}
+
+.products table tbody tr:nth-child(2n) td{
+  background-color: #f1efef;
+}
+.products table tbody tr:nth-child(2n+1) td{
+  background-color: #dfdfdf;
+}
+.no-prod{
+  width: 99.7%;
+  margin: 0px 102px;
+  text-align: center;
+  background-color: #f1efef;
+  font-size: 18px;
+  padding: 10px 0px;
+  margin-top: -11px;
+}
+
+.import {
+  float: right;
+  margin: 10px 0px;
+  margin-right: 30px;
 }
