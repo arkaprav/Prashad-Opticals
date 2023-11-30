@@ -122,7 +122,11 @@ export default function AddNewOrder({ handleCancel }) {
                 max="100"
                 value={orderDiscount}
                 onChange={(e) => {
-                  setOrderDiscount(parseFloat(e.target.value));
+                  if (e.target.value === '') {
+                    setOrderDiscount(0);
+                  } else {
+                    setOrderDiscount(parseFloat(e.target.value));
+                  }
                 }}
               />
             </td>
@@ -134,7 +138,11 @@ export default function AddNewOrder({ handleCancel }) {
                 max={orderDiscountedTotal}
                 value={orderAmountPaid}
                 onChange={(e) => {
-                  setOrderAmountPaid(parseFloat(e.target.value));
+                  if (e.target.value === '') {
+                    setOrderAmountPaid(0);
+                  } else {
+                    setOrderAmountPaid(parseFloat(e.target.value));
+                  }
                 }}
               />
             </td>
