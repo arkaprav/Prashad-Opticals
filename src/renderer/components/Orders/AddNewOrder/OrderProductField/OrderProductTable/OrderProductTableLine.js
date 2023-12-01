@@ -7,7 +7,7 @@ export default function OrderProductTableLine({
   updateProductDiscount,
   handleRemoveProduct,
 }) {
-  const { frames } = useApp();
+  const { frames, lens } = useApp();
   const { ID, quantity, type, itemPrice, itemDiscount, itemDiscountedPrice } =
     OrderSingleProduct;
   const [lineProduct, setLineProduct] = useState({});
@@ -17,6 +17,13 @@ export default function OrderProductTableLine({
     if (type === 'Frames') {
       setLineProduct(
         frames.filter((product) => {
+          return product.ID === ID;
+        })[0],
+      );
+    }
+    if (type === 'Lens') {
+      setLineProduct(
+        lens.filter((product) => {
           return product.ID === ID;
         })[0],
       );
@@ -78,7 +85,7 @@ export default function OrderProductTableLine({
         <button
           type="submit"
           onClick={() => {
-            handleRemoveProduct(ID);
+            handleRemoveProduct(ID, type);
           }}
         >
           Remove

@@ -122,7 +122,7 @@ button{
   cursor: pointer;
 }
 .add-product{
-  height: 350px;
+  height: 230px;
 }
 .add-product .input-fields{
   display: flex;
@@ -134,12 +134,18 @@ button{
   padding-bottom: 0px;
   gap: 10px;
 }
-.add-product .input-fields input{
+.add-product .input-fields div{
+  flex: 25%;
+}
+.add-product .input-fields div input{
   font-size: 17px;
   padding: 5px 15px;
   border: 1px solid #acacac;
   border-radius: 30px;
-  flex: 25%;
+}
+.add-product .input-fields div span{
+  padding: 5px 0px;
+  font-size: 15px;
 }
 .add-product .buttons{
   display: flex;
@@ -147,6 +153,7 @@ button{
   column-gap: 10px;
   padding: 10px;
   margin: 10px;
+  margin-left: 900px;
   margin-right: 100px;
 }
 .add-product .buttons button{
@@ -160,10 +167,10 @@ button{
 }
 .products {
   width: 1100px;
+  margin: 10px 100px;
 }
 .products table{
   width: 100%;
-  margin: 10px 100px;
 }
 .products table thead{
   font-size: 15px;
@@ -200,19 +207,17 @@ button{
   background-color: #dfdfdf;
 }
 .no-prod{
-  width: 99.7%;
-  margin: 0px 102px;
+  width: 100%;
   text-align: center;
   background-color: #f1efef;
   font-size: 18px;
   padding: 10px 0px;
-  margin-top: -11px;
 }
 
 .import {
   float: right;
   margin: 10px 0px;
-  margin-right: 30px;
+  margin-right: 100px;
 }
 
 .customerField{
@@ -227,13 +232,21 @@ button{
   cursor: pointer;
 }
 
+.customerField .new-customer{
+  width: 800px;
+  display: flex;
+}
+
 .customerField .new-customer input{
   font-size: 15px;
-  padding: 8px 15px;
+  padding: 5px 15px;
   border: 1px solid #acacac;
   border-radius: 30px;
-  width: 140px;
+  width: 100px;
   margin-right: 10px;
+}
+.customerField .new-customer button{
+  font-size: 10px;
 }
 
 .search .searchBar input{
@@ -245,7 +258,8 @@ button{
   border-radius: 20px;
 }
 .search .searchResults{
-  position: absolute;
+  background-color: #fff;
+  position: relative;
   width: 400.5px;
   border: 1px solid #fff;
   border-bottom-right-radius: 8px;
@@ -301,4 +315,10 @@ button{
  }
  .top-order .add {
   float: right;
+  margin-right: 100px;
  }
+
+ .search .searchBar{
+  width: 700px;
+ }
+

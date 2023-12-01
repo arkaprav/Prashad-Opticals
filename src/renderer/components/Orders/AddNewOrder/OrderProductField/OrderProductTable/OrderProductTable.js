@@ -1,4 +1,8 @@
+
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import OrderProductTableLine from './OrderProductTableLine';
+import { useEffect } from 'react';
+
 
 export default function OrderProductTable({
   orderProducts,
@@ -6,6 +10,7 @@ export default function OrderProductTable({
   updateProductDiscount,
   handleRemoveProduct,
 }) {
+  const [parent, enable] = useAutoAnimate({ duration: 350 });
   const orderProductTB = orderProducts.map((OrderSingleProduct) => {
     return (
       <OrderProductTableLine
@@ -16,8 +21,12 @@ export default function OrderProductTable({
       />
     );
   });
+
+  useEffect(() => {
+    enable(true);
+  }, [parent]);
   return (
-    <div className="products">
+    <div className="products" ref={parent}>
       <table>
         <thead>
           <tr>

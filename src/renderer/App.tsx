@@ -4,6 +4,7 @@ import './App.css';
 import Frames from './pages/Frames';
 import Orders from './pages/Orders';
 import Customers from './pages/Customers';
+import Lens from './pages/Lens';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <Route path="/" element={<Frames />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
+          <Route path="/lens" element={<Lens />} />
         </Routes>
       </Router>
     </Provider>

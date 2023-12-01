@@ -31,9 +31,10 @@ export default function AddNewOrder({ handleCancel }) {
       itemDiscount: 0,
       itemDiscountedPrice: itemPrice,
     };
+    console.log(ID, type, itemPrice);
     if (products.length !== 0) {
       const idProd = products.filter((product) => {
-        return product.ID === ID;
+        return product.ID === ID && product.type === type;
       });
       if (idProd.length === 0) {
         setProducts([...products, data]);
@@ -44,6 +45,8 @@ export default function AddNewOrder({ handleCancel }) {
       setOrderAmountPaid(0);
     }
   };
+
+  console.log(products);
 
   const updateProductQuantity = (ID, quantity) => {
     setProducts(
@@ -74,10 +77,12 @@ export default function AddNewOrder({ handleCancel }) {
     setOrderAmountPaid(0);
   };
 
-  const handleRemoveProduct = (ID) => {
+  const handleRemoveProduct = (ID, type) => {
+    console.log(ID, type);
     setProducts(
       products.filter((product) => {
-        return product.ID !== ID;
+        console.log(!(product.ID === ID && product.type === type));
+        return !(product.ID === ID && product.type === type);
       }),
     );
     setOrderAmountPaid(0);

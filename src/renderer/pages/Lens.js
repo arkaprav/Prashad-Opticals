@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import Layout from '../components/Layout';
-import FramesTable from '../components/Frames/FramesTable';
-import AddFrame from '../components/Frames/AddFrame/AddFrames';
-import ImportFrames from '../components/Frames/AddFrame/ImportFrames';
+import AddLens from '../components/Lens/AddLens/AddLens';
+import ImportLens from '../components/Lens/AddLens/ImportLens';
+import LensTable from '../components/Lens/LensTable/LensTable';
 
-export default function Frames(params) {
+export default function Lens() {
   const [searchName, setSearchName] = useState('');
-  const [addFrame, setAddFrame] = useState(false);
+  const [addLens, setAddLens] = useState(false);
   const [parent, enable] = useAutoAnimate({ duration: 350 });
   useEffect(() => {
     enable(true);
   }, [parent]);
 
-  const handleAddFrameCancel = () => {
-    setAddFrame(false);
+  const handleAddLensCancel = () => {
+    setAddLens(false);
   };
 
   const handleSearch = (e) => {
@@ -23,8 +23,8 @@ export default function Frames(params) {
   const handleReset = () => {
     setSearchName('');
   };
-  const handleAddFrameChange = () => {
-    setAddFrame(true);
+  const handleAddLensChange = () => {
+    setAddLens(true);
   };
   return (
     <Layout>
@@ -36,7 +36,7 @@ export default function Frames(params) {
               name="search"
               value={searchName}
               onChange={handleSearch}
-              placeholder="Searche Frames..."
+              placeholder="Searche Lens..."
             />
             {searchName !== '' && (
               <button type="submit" onClick={handleReset}>
@@ -45,14 +45,14 @@ export default function Frames(params) {
             )}
           </div>
           <div className="add">
-            <button type="submit" onClick={handleAddFrameChange}>
-              + Add Frame
+            <button type="submit" onClick={handleAddLensChange}>
+              + Add Lens
             </button>
           </div>
         </div>
-        {addFrame && <AddFrame handleCancel={handleAddFrameCancel} />}
-        <ImportFrames />
-        <FramesTable searchName={searchName} />
+        {addLens && <AddLens handleCancel={handleAddLensCancel} />}
+        <ImportLens />
+        <LensTable searchName={searchName} />
       </div>
     </Layout>
   );

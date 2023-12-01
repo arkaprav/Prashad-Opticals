@@ -133,6 +133,7 @@ const queries = [
   'CREATE DATABASE IF NOT EXISTS optical_store',
   'USE optical_store',
   'CREATE TABLE IF NOT EXISTS frames(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, code VARCHAR(255), name VARCHAR(255), brand VARCHAR(255), gender VARCHAR(255), color VARCHAR(255), size INT, type VARCHAR(255), shape VARCHAR(255), material VARCHAR(255), temple VARCHAR(255), bridge_size VARCHAR(255), hsn_code VARCHAR(255), tax INT, base_price INT, purchase_price INT, retail_price INT, discount_price INT, inventory INT)',
+  'CREATE TABLE IF NOT EXISTS lens(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, code VARCHAR(255), name VARCHAR(255), brand VARCHAR(255), color VARCHAR(255), coating VARCHAR(255), design VARCHAR(255), ind INT, quality INT, material VARCHAR(255), hsn_code VARCHAR(255), tax INT, base_price INT, purchase_price INT, retail_price INT, discount_price INT, inventory INT)',
   'CREATE TABLE IF NOT EXISTS customers(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255), mail VARCHAR(255), mobile VARCHAR(255), orders INT)',
   'CREATE TABLE IF NOT EXISTS orders(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, createdAt VARCHAR(255), products VARCHAR(5000), extraField VARCHAR(5000), orderTotal INT, orderDiscount INT, discountedPrize INT, amountPaid INT, customerID INT)',
 ];
@@ -197,10 +198,71 @@ ipcMain.handle('updateInventoryFrames', async (event, args) => {
   });
 });
 
-ipcMain.handle('deleteFrame', (event, args) =>  {
+ipcMain.handle('deleteFrame', (event, args) => {
   const deleteFrame = `DELETE FROM frames WHERE ID=${args};`;
   return new Promise((res, rej) => {
     con.query(deleteFrame, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+//lens
+
+ipcMain.handle('fetchLens', async (event, args) => {
+  const query = `SELECT * FROM lens;`;
+  return new Promise((res, rej) => {
+    con.query(query, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('addLens', async (event, args) => {
+  const {
+    code,
+    name,
+    brand,
+    color,
+    coating,
+    design,
+    index,
+    quality,
+    material,
+    hsn_code,
+    tax,
+    base_price,
+    purchase_price,
+    retail_price,
+    discount_price,
+    inventory,
+  } = args;
+  const addLens = `INSERT INTO lens(code, name, brand, color, coating, design, ind, quality, material, hsn_code, tax, base_price, purchase_price, retail_price, discount_price, inventory) VALUES('${code}','${name}','${brand}','${color}','${coating}','${design}','${index}','${quality}','${material}','${hsn_code}','${tax}','${base_price}','${purchase_price}','${retail_price}','${discount_price}','${inventory}')`;
+  return new Promise((res, rej) => {
+    con.query(addLens, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('updateInventoryLens', async (event, args) => {
+  const { ID, inventory } = args;
+  const query = `UPDATE lens SET inventory='${inventory}' WHERE ID=${ID};`;
+  return new Promise((res, rej) => {
+    con.query(query, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('deleteLens', (event, args) => {
+  const deleteLens = `DELETE FROM lens WHERE ID=${args};`;
+  return new Promise((res, rej) => {
+    con.query(deleteLens, (err, rows) => {
       if (err) rej(err);
       res(rows);
     });
@@ -263,7 +325,7 @@ ipcMain.handle('addOrder', (event, args) => {
     discountedPrize,
     amountPaid,
     customerID,
-  }= args;
+  } = args;
   const addOrder = `INSERT INTO orders(createdAt, products, extraField, orderTotal, orderDiscount, discountedPrize, amountPaid, customerID) VALUES('${createdAt}', '${products}', '${extraFields}', '${orderTotal}', '${orderDiscount}', '${discountedPrize}', '${amountPaid}', '${customerID}');`;
   return new Promise((res, rej) => {
     con.query(addOrder, (err, rows) => {
@@ -271,7 +333,18 @@ ipcMain.handle('addOrder', (event, args) => {
       res(rows);
     });
   });
-})
+});
+
+ipcMain.handle('updateOrderAmountPaid', (event, args) => {
+  const { ID, amountPaid } = args;
+  const updateOrderAmountPaid = `UPDATE orders SET amountPaid='${amountPaid}' WHERE ID=${ID}`;
+  return new Promise((res, rej) => {
+    con.query(updateOrderAmountPaid, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even

@@ -23,7 +23,11 @@ export default function FramesSearchResults({ handleSelect, searchName }) {
   let frameLine = null;
   if (searchedFrames.lenght !== 0) {
     frameLine = searchedFrames.map((frame) => {
-      return (
+      return frame.inventory === 0 ? (
+        <div className="searchLine" style={{ cursor: 'default' }}>
+          {frame.code}-{frame.name}-{frame.brand}({frame.inventory})
+        </div>
+      ) : (
         <div
           className="searchLine"
           onClick={() => {
@@ -34,7 +38,7 @@ export default function FramesSearchResults({ handleSelect, searchName }) {
             );
           }}
         >
-          {frame.code}-{frame.name}-{frame.brand}
+          {frame.code}-{frame.name}-{frame.brand}({frame.inventory})
         </div>
       );
     });

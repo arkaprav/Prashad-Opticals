@@ -1,22 +1,19 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../../context/AppContext';
 import { useEffect, useState } from 'react';
 
-export default function FramesTableLine({ frame }) {
-  const [parent, enable] = useAutoAnimate();
+export default function LensTableLine({ len }) {
+  const [parent, enable] = useAutoAnimate({ duration: 350 });
   const {
     ID,
     code,
     name,
     brand,
-    gender,
     color,
-    size,
-    type,
-    shape,
-    material,
-    temple,
-    bridge_size,
+    coating,
+    design,
+    index,
+    quality,
     hsn_code,
     tax,
     base_price,
@@ -24,23 +21,23 @@ export default function FramesTableLine({ frame }) {
     retail_price,
     discount_price,
     inventory,
-  } = frame;
+  } = len;
 
   useEffect(() => {
     enable(true);
   }, [parent]);
 
-  const { deleteFrame, updateInventoryFrames } = useApp();
+  const { deleteLen, updateInventoryLens } = useApp();
   const [newInventory, setNewInventory] = useState(inventory);
   const [click, setClicked] = useState(false);
   const [finalInventory, setFinalInventory] = useState(inventory);
 
   const handleDelete = async () => {
-    deleteFrame(ID);
+    deleteLen(ID);
   };
 
   const handleInventoryChange = async () => {
-    const res = await updateInventoryFrames(ID, newInventory);
+    const res = await updateInventoryLens(ID, newInventory);
     if (res === true) {
       setFinalInventory(newInventory);
       setClicked(false);
@@ -56,8 +53,7 @@ export default function FramesTableLine({ frame }) {
     <tr key={ID} ref={parent}>
       <td>{code}</td>
       <td>
-        {name}-{brand}-{gender}-{color}-<br />
-        {size}-{type}-{shape}-{material}-{temple}-{bridge_size}
+        {name}-{brand}-{color}-{coating}-{design}-{index}-{quality}
       </td>
       <td>
         Base Price: {base_price}

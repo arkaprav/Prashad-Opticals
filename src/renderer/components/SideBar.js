@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
 
 export default function SideBar(params) {
-  const menus = ['Frames', 'Orders', 'Customers'];
+  const menus = ['Frames', 'Lens', 'Orders', 'Customers'];
   const path = {
     Frames: '/',
+    Lens: '/lens',
     Orders: '/orders',
     Customers: '/customers',
   };

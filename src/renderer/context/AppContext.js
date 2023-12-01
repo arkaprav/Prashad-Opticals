@@ -8,6 +8,7 @@ function useApp() {
 
 function Provider({ children }) {
   const [frames, setFrames] = useState([]);
+  const [lens, setLens] = useState([]);
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
 
@@ -15,6 +16,11 @@ function Provider({ children }) {
     setTimeout(() => {
       window.electron.ipcRenderer.invoke('fetchFrames', 'fetch', (args) => {
         setFrames(args);
+      });
+    }, 1);
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke('fetchLens', 'fetch', (args) => {
+        setLens(args);
       });
     }, 1);
     setTimeout(() => {
@@ -124,6 +130,104 @@ function Provider({ children }) {
           setFrames(
             frames.filter((frame) => {
               return frame.ID !== ID;
+            }),
+          );
+        }
+      });
+    });
+    return true;
+  };
+
+  //lens
+  const addLens = (
+    code,
+    name,
+    brand,
+    color,
+    coating,
+    design,
+    index,
+    quality,
+    material,
+    hsn_code,
+    tax,
+    base_price,
+    purchase_price,
+    retail_price,
+    discount_price,
+    inventory,
+  ) => {
+    const data = {
+      code,
+      name,
+      brand,
+      color,
+      coating,
+      design,
+      index,
+      quality,
+      material,
+      hsn_code,
+      tax,
+      base_price,
+      purchase_price,
+      retail_price,
+      discount_price,
+      inventory
+    };
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke('addLens', data, async (args) => {
+        let lastIndex = 0;
+        if (lens.length !== 0) {
+          const lastIndex = lens[lens.length - 1].ID;
+        }
+        const { affectedRows, insertId } = args;
+        if (affectedRows === 1) {
+          if (insertId !== lastIndex) {
+            data.ID = insertId;
+            await setLens([...lens, data]);
+          }
+        }
+      });
+    }, 1);
+    return true;
+  };
+
+  const updateInventoryLens = (ID, outinventory) => {
+    const data = {
+      ID,
+      inventory: outinventory,
+    };
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke(
+        'updateInventoryLens',
+        data,
+        (args) => {
+          const { affectedRows } = args;
+          if (affectedRows === 1) {
+            setLens(
+              lens.map((len) => {
+                if (len.ID === ID) {
+                  len.inventory = outinventory;
+                }
+                return len;
+              }),
+            );
+          }
+        },
+      );
+    });
+    return true;
+  };
+
+  const deleteLen = (ID) => {
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke('deleteLens', ID, (args) => {
+        const { affectedRows } = args;
+        if (affectedRows === 1) {
+          setLens(
+            lens.filter((len) => {
+              return len.ID !== ID;
             }),
           );
         }
@@ -254,6 +358,33 @@ function Provider({ children }) {
     return true;
   };
 
+  const updateOrderAmountPaid = (ID, amountPaid) => {
+    const data = {
+      ID,
+      amountPaid,
+    };
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke(
+        'updateOrderAmountPaid',
+        data,
+        (args) => {
+          const { affectedRows } = args;
+          if (affectedRows === 1) {
+            setOrders(
+              orders.map((order) => {
+                if (order.ID === ID) {
+                  order.amountPaid = amountPaid;
+                }
+                return order;
+              }),
+            );
+          }
+        },
+      );
+    }, 1);
+    return true;
+  };
+
   return (
     <appContext.Provider
       value={{
@@ -261,11 +392,16 @@ function Provider({ children }) {
         addFrames,
         deleteFrame,
         updateInventoryFrames,
+        lens,
+        addLens,
+        updateInventoryLens,
+        deleteLen,
         orders,
         addOrder,
         customers,
         addCustomers,
         updateCustomerOrders,
+        updateOrderAmountPaid,
       }}
     >
       {children}
