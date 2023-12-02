@@ -5,7 +5,6 @@ import AddNewOrder from '../components/Orders/AddNewOrder/AddNewOrder';
 import OrderTable from '../components/Orders/OrderTable/OrderTable';
 
 export default function Orders() {
-  const [searchName, setSearchName] = useState('');
   const [addOrder, setAddOrder] = useState(false);
   const [parent, enable] = useAutoAnimate({ duration: 350 });
   useEffect(() => {
@@ -14,13 +13,6 @@ export default function Orders() {
 
   const handleAddOrderCancel = () => {
     setAddOrder(false);
-  };
-
-  const handleSearch = (e) => {
-    setSearchName(e.target.value);
-  };
-  const handleReset = () => {
-    setSearchName('');
   };
   const handleAddOrderChange = () => {
     setAddOrder(true);
@@ -38,7 +30,7 @@ export default function Orders() {
         {addOrder === true && (
           <AddNewOrder handleCancel={handleAddOrderCancel} />
         )}
-        <OrderTable searchName={searchName} />
+        <OrderTable />
       </div>
     </Layout>
   );

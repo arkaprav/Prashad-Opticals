@@ -162,7 +162,6 @@ export default function AddNewOrder({ handleCancel }) {
     const res = await addOrder(
       new Date().toUTCString(),
       products,
-      '',
       orderTotal,
       orderDiscount,
       orderDiscountedTotal,

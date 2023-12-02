@@ -7,7 +7,6 @@ export default function OrderTableLine({ order }) {
     createdAt,
     customerID,
     discountedPrize,
-    extraField,
     orderDiscount,
     orderTotal,
     amountPaid,

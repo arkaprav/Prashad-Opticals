@@ -295,7 +295,6 @@ function Provider({ children }) {
   const addOrder = async (
     createdAt,
     products,
-    extraFields,
     orderTotal,
     orderDiscount,
     discountedPrize,
@@ -305,7 +304,6 @@ function Provider({ children }) {
     const data = {
       createdAt,
       products,
-      extraFields,
       orderTotal,
       orderDiscount,
       discountedPrize,
@@ -316,7 +314,6 @@ function Provider({ children }) {
     const passData = {
       createdAt,
       products: JSON.stringify(products),
-      extraFields: JSON.stringify(extraFields),
       orderTotal,
       orderDiscount,
       discountedPrize,

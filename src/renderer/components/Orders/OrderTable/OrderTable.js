@@ -1,7 +1,7 @@
 import { useApp } from '../../../context/AppContext';
 import OrderTableLine from './OrderTableLine';
 
-export default function OrderTable({ searchName }) {
+export default function OrderTable() {
   const { orders } = useApp();
   const orderTB = orders.map((order) => {
     return <OrderTableLine key={order.ID} order={order} />;
