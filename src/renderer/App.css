@@ -122,7 +122,7 @@ button{
   cursor: pointer;
 }
 .add-product{
-  height: 230px;
+  height: 500px;
 }
 .add-product .input-fields{
   display: flex;
@@ -153,8 +153,8 @@ button{
   column-gap: 10px;
   padding: 10px;
   margin: 10px;
-  margin-left: 900px;
-  margin-right: 100px;
+  margin-left: 500px;
+  margin-right: 150px;
 }
 .add-product .buttons button{
   padding: 8px 15px;
@@ -166,7 +166,7 @@ button{
   cursor: pointer;
 }
 .products {
-  width: 1100px;
+  width: 950px;
   margin: 10px 100px;
 }
 .products table{
@@ -217,7 +217,7 @@ button{
 .import {
   float: right;
   margin: 10px 0px;
-  margin-right: 100px;
+  margin-right: 150px;
 }
 
 .customerField{
