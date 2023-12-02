@@ -173,7 +173,7 @@ function Provider({ children }) {
       purchase_price,
       retail_price,
       discount_price,
-      inventory
+      inventory,
     };
     setTimeout(() => {
       window.electron.ipcRenderer.invoke('addLens', data, async (args) => {
@@ -327,7 +327,23 @@ function Provider({ children }) {
           return frame.ID === prodData[i].ID;
         });
         const newInventory = prod.inventory - 1;
-        const inventoryData = { ID: prodData[i].ID, newInventory };
+        const inventoryData = {
+          ID: prodData[i].ID,
+          type: prodData[i].type,
+          newInventory,
+        };
+        updateInventory.push(inventoryData);
+      }
+      if (prodData[i].type === 'Lens') {
+        const [prod] = lens.filter((len) => {
+          return len.ID === prodData[i].ID;
+        });
+        const newInventory = prod.inventory - 1;
+        const inventoryData = {
+          ID: prodData[i].ID,
+          type: prodData[i].type,
+          newInventory,
+        };
         updateInventory.push(inventoryData);
       }
     }
@@ -339,16 +355,23 @@ function Provider({ children }) {
       window.electron.ipcRenderer.invoke('addOrder', passData, async (args) => {
         const { affectedRows, insertId } = args;
         if (affectedRows === 1) {
+          updateCustomerOrders(updateOrders.ID, updateOrders.no_of_orders);
           passData.ID = insertId;
-          console.log(passData);
           setOrders([...orders, passData]);
           for (let i = 0; i < updateInventory.length; i++) {
-            updateInventoryFrames(
-              updateInventory[i].ID,
-              updateInventory[i].newInventory,
-            );
+            if (updateInventory[i].type === 'Frames') {
+              updateInventoryFrames(
+                updateInventory[i].ID,
+                updateInventory[i].newInventory,
+              );
+            }
+            if (updateInventory[i].type === 'Lens') {
+              updateInventoryLens(
+                updateInventory[i].ID,
+                updateInventory[i].newInventory,
+              );
+            }
           }
-          updateCustomerOrders(updateOrders.ID, updateOrders.no_of_orders);
         }
       });
     }, 1);

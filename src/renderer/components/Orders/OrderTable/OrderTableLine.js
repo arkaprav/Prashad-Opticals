@@ -69,7 +69,7 @@ export default function OrderTableLine({ order }) {
     return (
       <>
         <div key={prod.ID}>
-          {prod.name}-{prod.brand}-{prod.code}-{prod.type}x {prod.quantity}
+          {prod.name}-{prod.brand}-{prod.code}-{prod.type} x{prod.quantity}
           <br />
           Total: {prod.itemPrice} <br />
           Discount: {prod.itemDiscount} <br />
