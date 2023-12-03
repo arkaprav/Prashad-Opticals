@@ -15,6 +15,7 @@ export default function AddNewOrder({ handleCancel }) {
   const [products, setProducts] = useState([]);
   const [orderDiscount, setOrderDiscount] = useState(0);
   const [orderAmountPaid, setOrderAmountPaid] = useState(0);
+  const [hasLens, setHasLens] = useState(0);
   useEffect(() => {
     enable(true);
   }, [parent]);
@@ -22,6 +23,7 @@ export default function AddNewOrder({ handleCancel }) {
     setcustomerID(id);
   };
   const handleAddProduct = (ID, type, itemPrice) => {
+    if (type === 'Lens') setHasLens(hasLens - 1);
     const data = {
       ID,
       type,
@@ -31,7 +33,6 @@ export default function AddNewOrder({ handleCancel }) {
       itemDiscount: 0,
       itemDiscountedPrice: itemPrice,
     };
-    console.log(ID, type, itemPrice);
     if (products.length !== 0) {
       const idProd = products.filter((product) => {
         return product.ID === ID && product.type === type;
@@ -78,6 +79,7 @@ export default function AddNewOrder({ handleCancel }) {
   };
 
   const handleRemoveProduct = (ID, type) => {
+    if (type === 'Lens') setHasLens(hasLens + 1);
     console.log(ID, type);
     setProducts(
       products.filter((product) => {
@@ -209,9 +211,9 @@ export default function AddNewOrder({ handleCancel }) {
           handleRemoveProduct={handleRemoveProduct}
         />
       )}
-      {products.length !== 0 && orderAmountTB}
+      {products.length !== 0 && hasLens === 0 && orderAmountTB}
       <div className="buttons">
-        {products.length !== 0 && (
+        {products.length !== 0 && hasLens === 0 && (
           <button type="submit" onClick={handlePlaceOrder}>
             Place Order
           </button>

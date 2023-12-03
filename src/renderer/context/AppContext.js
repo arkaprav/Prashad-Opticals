@@ -405,6 +405,18 @@ function Provider({ children }) {
     return true;
   };
 
+  //prescription
+
+  const addPrescription = (customerID, lensID, lenstype, prescription) => {
+    const data = {
+      customerID,
+      lensID,
+      lenstype,
+      prescription: JSON.stringify(prescription),
+    };
+    console.log(data);
+  }
+
   return (
     <appContext.Provider
       value={{
@@ -422,6 +434,7 @@ function Provider({ children }) {
         addCustomers,
         updateCustomerOrders,
         updateOrderAmountPaid,
+        addPrescription
       }}
     >
       {children}
