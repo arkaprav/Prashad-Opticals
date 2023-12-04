@@ -322,3 +322,29 @@ button{
   width: 700px;
  }
 
+.prescription {
+  margin: 10px 60px;
+}
+.prescription table{
+  width: 100%;
+}
+.prescription table thead{
+  font-size: 10px;
+  background-color: #2a2c8f;
+  color: white;
+}
+.prescription table thead th {
+  padding: 5px 0px;
+}
+.prescription table tbody tr td{
+  font-size: 10px;
+  padding: 5px 0px;
+  text-align: center;
+}
+
+.prescription table tbody tr:nth-child(2n) td{
+  background-color: rgb(160, 160, 255);
+}
+.prescription table tbody tr:nth-child(2n+1) td{
+  background-color: #c3c4ff;
+}

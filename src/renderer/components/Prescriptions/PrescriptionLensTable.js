@@ -18,7 +18,7 @@ export default function PrescriptionLensTable({ prescription }) {
   } = JSON.parse(prescription);
   console.log(prescription);
   return (
-    <div>
+    <div className="prescription">
       <table>
         <thead>
           <tr>
