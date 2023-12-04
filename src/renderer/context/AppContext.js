@@ -11,6 +11,7 @@ function Provider({ children }) {
   const [lens, setLens] = useState([]);
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [prescriptions, setPrescriptions] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -27,6 +28,15 @@ function Provider({ children }) {
       window.electron.ipcRenderer.invoke('fetchOrders', 'fetch', (args) => {
         setOrders(args);
       });
+    }, 1);
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke(
+        'fetchPrescriptions',
+        'fetch',
+        (args) => {
+          setPrescriptions(args);
+        },
+      );
     }, 1);
     setTimeout(() => {
       window.electron.ipcRenderer.invoke('fetchCustomers', 'fetch', (args) => {
@@ -407,15 +417,29 @@ function Provider({ children }) {
 
   //prescription
 
-  const addPrescription = (customerID, lensID, lenstype, prescription) => {
+  const addPrescription = async (
+    customerID,
+    lensID,
+    lenstype,
+    prescription,
+  ) => {
     const data = {
       customerID,
       lensID,
       lenstype,
       prescription: JSON.stringify(prescription),
     };
-    console.log(data);
-  }
+    await setTimeout(() => {
+      window.electron.ipcRenderer.invoke('addPrescription', data, (args) => {
+        const { affectedRows, insertId } = args;
+        if (affectedRows === 1) {
+          data.ID = insertId;
+          setPrescriptions([...prescriptions, data]);
+        }
+      });
+    }, 1);
+    return true;
+  };
 
   return (
     <appContext.Provider
@@ -434,7 +458,8 @@ function Provider({ children }) {
         addCustomers,
         updateCustomerOrders,
         updateOrderAmountPaid,
-        addPrescription
+        prescriptions,
+        addPrescription,
       }}
     >
       {children}

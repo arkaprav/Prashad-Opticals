@@ -6,6 +6,7 @@ import OrderCustomerTable from './orderCustomerField/OrderCustomer/OrderCustomer
 import OrderProductSearch from './OrderProductField/OrderProductSearch/OrderProductSearch';
 import OrderProductTable from './OrderProductField/OrderProductTable/OrderProductTable';
 import { useApp } from '../../../context/AppContext';
+import OrderLenPrescription from './OrderPrescription/OrderPrescription';
 
 export default function AddNewOrder({ handleCancel }) {
   const { addOrder } = useApp();
@@ -47,8 +48,6 @@ export default function AddNewOrder({ handleCancel }) {
     }
   };
 
-  console.log(products);
-
   const updateProductQuantity = (ID, quantity) => {
     setProducts(
       products.map((product) => {
@@ -80,10 +79,8 @@ export default function AddNewOrder({ handleCancel }) {
 
   const handleRemoveProduct = (ID, type) => {
     if (type === 'Lens') setHasLens(hasLens + 1);
-    console.log(ID, type);
     setProducts(
       products.filter((product) => {
-        console.log(!(product.ID === ID && product.type === type));
         return !(product.ID === ID && product.type === type);
       }),
     );
@@ -92,8 +89,26 @@ export default function AddNewOrder({ handleCancel }) {
 
   let orderTotal = 0;
   for (let i = 0; i < products.length; i++) {
-    orderTotal += products[i].itemDiscountedPrice;
+    orderTotal += parseFloat(products[i].itemDiscountedPrice);
   }
+
+  const handleAddPrescription = () => {
+    setHasLens(hasLens + 1);
+  };
+
+  const prescriptions = products.map((product) => {
+    if (product.type === 'Lens') {
+      return (
+        <OrderLenPrescription
+          key={product.ID}
+          customerID={customerID}
+          lensID={product.ID}
+          handleAddPrescription={handleAddPrescription}
+        />
+      );
+    }
+    return null;
+  });
 
   const orderDiscountedTotal = orderTotal * (1 - orderDiscount / 100);
   const orderStatus =
@@ -211,6 +226,7 @@ export default function AddNewOrder({ handleCancel }) {
           handleRemoveProduct={handleRemoveProduct}
         />
       )}
+      {prescriptions}
       {products.length !== 0 && hasLens === 0 && orderAmountTB}
       <div className="buttons">
         {products.length !== 0 && hasLens === 0 && (
