@@ -19,6 +19,7 @@ export default function OrderTable() {
             <th>Price</th>
             <th>amountPaid</th>
             <th>OrderStatus</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>{orderTB}</tbody>

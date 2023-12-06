@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useApp } from '../../../context/AppContext';
+import OrderReceipt from '../OrderReceipt/OrderReceipt';
+import ReactToPrint from 'react-to-print';
 
 export default function OrderTableLine({ order }) {
+  const ref = useRef();
   const {
     ID,
     createdAt,
@@ -12,6 +15,12 @@ export default function OrderTableLine({ order }) {
     amountPaid,
     products,
   } = order;
+  const total = {
+    discountedPrize,
+    orderDiscount,
+    orderTotal,
+    amountPaid,
+  };
   const { frames, lens, customers, updateOrderAmountPaid } = useApp();
   const [clicked, setClicked] = useState(false);
   const [newAmountPaid, setNewAmountPaid] = useState(amountPaid);
@@ -120,6 +129,23 @@ export default function OrderTableLine({ order }) {
         </td>
       )}
       <td>{discountedPrize === amountPaid ? 'paid' : 'pending'}</td>
+      <td>
+        <div style={{ display: 'none' }}>
+          <div ref={ref}>
+            <OrderReceipt
+              ID={ID}
+              customer={cust}
+              products={prodout}
+              totals={total}
+            />
+          </div>
+        </div>
+        <ReactToPrint
+          trigger={() => <button>Receipt</button>}
+          content={() => ref.current}
+          print={false}
+        />
+      </td>
     </tr>
   );
 }

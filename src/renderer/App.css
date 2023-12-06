@@ -217,7 +217,7 @@ button{
 .import {
   float: right;
   margin: 10px 0px;
-  margin-right: 150px;
+  margin-right: 100px;
 }
 
 .customerField{
@@ -315,7 +315,7 @@ button{
  }
  .top-order .add {
   float: right;
-  margin-right: 100px;
+  margin-right: 150px;
  }
 
  .search .searchBar{
@@ -347,4 +347,76 @@ button{
 }
 .prescription table tbody tr:nth-child(2n+1) td{
   background-color: #c3c4ff;
+}
+.background{
+  padding: 100px 0px;
+  width: 100%;
+  background-color: #fff;
+}
+
+.background .pid{
+  text-align: center;
+}
+
+.background .totals{
+  float: right;
+}
+
+.background .customer,
+.background .totals{
+  margin: 50px 100px;
+}
+
+.background .customer p,
+.background .totals p{
+  margin: 5px;
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.background .customer p span,
+.background .totals p span{
+  color: #000;
+}
+
+.order-product {
+  margin: 10px 100px;
+}
+.order-product table{
+  width: 100%;
+}
+.order-product table thead{
+  font-size: 15px;
+  background-color: black;
+  color: white;
+}
+.order-product table thead th {
+  padding: 10px 0px;
+}
+.order-product table tbody tr td{
+  font-size: 15px;
+  padding: 10px 0px;
+  text-align: center;
+}
+
+.order-product table tbody tr td input{
+  width: 35%;
+  font-size: 15px;
+  padding: 5px 15px;
+  margin:auto;
+  border: 1px solid #acacac;
+  border-radius: 20px;
+}
+
+.order-product table tbody tr td button{
+  font-size: 12px;
+  padding: 5px 8px;
+}
+
+.order-product table tbody tr:nth-child(2n) td{
+  background-color: #f1efef;
+}
+.order-product table tbody tr:nth-child(2n+1) td{
+  background-color: #dfdfdf;
 }

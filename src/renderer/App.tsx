@@ -6,6 +6,7 @@ import Orders from './pages/Orders';
 import Customers from './pages/Customers';
 import Lens from './pages/Lens';
 import Prescriptions from './pages/Prescriptions';
+import Test from './pages/test';
 
 export default function App() {
   return (
