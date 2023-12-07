@@ -16,7 +16,6 @@ export default function PrescriptionLensTable({ prescription }) {
     nearAddLeft,
     IPD,
   } = JSON.parse(prescription);
-  console.log(prescription);
   return (
     <div className="prescription">
       <table>

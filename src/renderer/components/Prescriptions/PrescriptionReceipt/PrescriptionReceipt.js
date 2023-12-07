@@ -29,6 +29,12 @@ export default function PrescriptionReceipt({
     nearAddLeft,
     IPD,
   } = JSON.parse(prescription);
+  let { name, address, mail, mobile } = {
+    name: null,
+    address: null,
+    mail: null,
+    mobile: null,
+  };
   useEffect(() => {
     let cust;
     for (let i = 0; i < customers.length; i++) {
@@ -43,18 +49,11 @@ export default function PrescriptionReceipt({
       }),
     );
   }, [customerID, lensID]);
-  const { name, address, mail, mobile } = {
-    name: null,
-    address: null,
-    mail: null,
-    mobile: null,
-  };
-  try {
-    const { name, address, mail, mobile } = patient[0];
-  } catch (error) {
-    if (patient !== []) {
-      const { name, address, mail, mobile } = patient;
-    }
+  if (patient !== []) {
+    name = patient.name;
+    address = patient.address;
+    mail = patient.mail;
+    mobile = patient.mobile;
   }
   const prodOut = products.map((prod) => {
     return (
