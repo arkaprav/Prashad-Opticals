@@ -30,18 +30,32 @@ export default function PrescriptionReceipt({
     IPD,
   } = JSON.parse(prescription);
   useEffect(() => {
-    setPatient(
-      customers.filter((cust) => {
-        return cust.ID === customerID;
-      }),
-    );
+    let cust;
+    for (let i = 0; i < customers.length; i++) {
+      if (customers[i].ID === customerID) {
+        cust = customers[i];
+      }
+    }
+    setPatient(cust);
     setProducts(
       lens.filter((len) => {
         return len.ID === lensID;
       }),
     );
   }, [customerID, lensID]);
-  const { name, address, mail, mobile } = patient[0];
+  const { name, address, mail, mobile } = {
+    name: null,
+    address: null,
+    mail: null,
+    mobile: null,
+  };
+  try {
+    const { name, address, mail, mobile } = patient[0];
+  } catch (error) {
+    if (patient !== []) {
+      const { name, address, mail, mobile } = patient;
+    }
+  }
   const prodOut = products.map((prod) => {
     return (
       <tr>
