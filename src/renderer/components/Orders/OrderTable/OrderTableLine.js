@@ -134,6 +134,7 @@ export default function OrderTableLine({ order }) {
           <div ref={ref}>
             <OrderReceipt
               ID={ID}
+              createdAt={createdAt}
               customer={cust}
               products={prodout}
               totals={total}

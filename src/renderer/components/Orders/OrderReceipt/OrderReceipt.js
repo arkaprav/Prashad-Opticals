@@ -1,4 +1,10 @@
-export default function OrderReceipt({ ID, customer, products, totals }) {
+export default function OrderReceipt({
+  ID,
+  createdAt,
+  customer,
+  products,
+  totals,
+}) {
   const { name, address, mail, mobile } = customer[0];
   const { orderTotal, orderDiscount, discountedPrize, amountPaid } = totals;
   const prodOut = products.map((prod) => {
@@ -18,19 +24,30 @@ export default function OrderReceipt({ ID, customer, products, totals }) {
   return (
     <div className="background">
       <div className="pid">Order ID: {ID}</div>
-      <div className="customer">
-        <p>
-          <span>Name:</span> <span>{name}</span>
-        </p>
-        <p>
-          <span>Address:</span> <span>{address}</span>
-        </p>
-        <p>
-          <span>Email:</span> <span>{mail}</span>
-        </p>
-        <p>
-          <span>Phone:</span> <span>{mobile}</span>
-        </p>
+      <div className="top">
+        <div className="customer">
+          <p>
+            <span>Name:</span> <span>{name}</span>
+          </p>
+          <p>
+            <span>Address:</span> <span>{address}</span>
+          </p>
+          <p>
+            <span>Email:</span> <span>{mail}</span>
+          </p>
+          <p>
+            <span>Phone:</span> <span>{mobile}</span>
+          </p>
+        </div>
+        <div className="other">
+          <p>
+            <span>Date: </span> <span>{createdAt}</span>
+          </p>
+          <p>
+            <span>Order Status: </span>
+            <span>{discountedPrize === amountPaid ? 'paid' : 'pending'}</span>
+          </p>
+        </div>
       </div>
       <div className="order-product">
         <table>

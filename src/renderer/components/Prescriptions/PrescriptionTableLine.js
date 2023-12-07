@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import PrescriptionLensTable from './PrescriptionLensTable';
+import PrescriptionReceipt from './PrescriptionReceipt/PrescriptionReceipt';
+import ReactToPrint from 'react-to-print';
 
 export default function PrescriptionTableLine({ prescriptions }) {
   const { ID, createdAt, customerID, lensID, lenstype, prescription } =
     prescriptions;
+  const ref = useRef();
   const { customers, lens } = useApp();
   const [patient, setPatient] = useState('');
   const [lensD, setLensD] = useState('');
@@ -44,6 +47,24 @@ export default function PrescriptionTableLine({ prescriptions }) {
         {lenstype === 'Lens' && (
           <PrescriptionLensTable prescription={prescription} />
         )}
+      </td>
+      <td>
+        <div style={{ display: 'none' }}>
+          <div ref={ref}>
+            <PrescriptionReceipt
+              ID={ID}
+              createdAt={createdAt}
+              customerID={customerID}
+              lensID={lensID}
+              lenstype={lenstype}
+              prescription={prescription}
+            />
+          </div>
+        </div>
+        <ReactToPrint
+          trigger={() => <button>Prescription</button>}
+          content={() => ref.current}
+        />
       </td>
     </tr>
   );

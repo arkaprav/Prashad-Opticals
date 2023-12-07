@@ -18,6 +18,7 @@ export default function Prescriptions() {
               <th>Patient Details</th>
               <th>Lens Details</th>
               <th>Prescription</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>{prescriptTB}</tbody>

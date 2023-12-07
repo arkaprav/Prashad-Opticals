@@ -362,9 +362,20 @@ button{
   float: right;
 }
 
+.background .customer{
+  float:left;
+}
+
 .background .customer,
+.background .other,
 .background .totals{
   margin: 50px 100px;
+}
+
+.background .others p{
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
 }
 
 .background .customer p,
@@ -376,6 +387,7 @@ button{
 }
 
 .background .customer p span,
+.background .other p span,
 .background .totals p span{
   color: #000;
 }
@@ -419,4 +431,12 @@ button{
 }
 .order-product table tbody tr:nth-child(2n+1) td{
   background-color: #dfdfdf;
+}
+.background .other{
+  float: right;
+}
+.background .top{
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
 }
