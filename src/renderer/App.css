@@ -198,6 +198,7 @@ button{
 .products table tbody tr td button{
   font-size: 12px;
   padding: 5px 8px;
+  margin: 2px 0px;
 }
 
 .products table tbody tr:nth-child(2n) td{
@@ -439,4 +440,26 @@ button{
   width: 100%;
   display:flex;
   justify-content: space-between;
+}
+
+.barcode {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.barcode .details{
+  width: 80px;
+  padding: 20px 0px;
+}
+
+.barcode .main{
+  padding: 15px 0px;
+  text-align: center;
+}
+
+.barcode .main svg {
+  width: 100px !important;
+  height: 50px !important;
 }

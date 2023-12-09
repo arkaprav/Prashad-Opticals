@@ -34,7 +34,7 @@ export default function FramesSearchResults({ handleSelect, searchName }) {
             handleSelect(
               frame.ID,
               `${frame.code}-${frame.name}-${frame.brand}`,
-              frame.discount_price,
+              frame.retail_price,
             );
           }}
         >

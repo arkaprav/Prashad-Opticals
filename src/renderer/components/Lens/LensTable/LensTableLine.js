@@ -1,6 +1,8 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useApp } from '../../../context/AppContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import ReactToPrint from 'react-to-print';
+import PrintBarcode from '../../Barcode/PrintBarcode';
 
 export default function LensTableLine({ len }) {
   const [parent, enable] = useAutoAnimate({ duration: 350 });
@@ -31,6 +33,24 @@ export default function LensTableLine({ len }) {
   const [newInventory, setNewInventory] = useState(inventory);
   const [click, setClicked] = useState(false);
   const [finalInventory, setFinalInventory] = useState(inventory);
+
+  const ref = useRef();
+
+  const pageSize = `
+  @page{
+    size: 30mm 20mm;
+  }
+  @media all{
+    .pageBreak{
+      display: none;
+    }
+  }
+  @media print{
+    .pageBreak{
+      page-break-before: always;
+    }
+  }
+  `;
 
   const handleDelete = async () => {
     deleteLen(ID);
@@ -94,9 +114,26 @@ export default function LensTableLine({ len }) {
       )}
       <td>{inventoryStatus}</td>
       <td>
+        <div style={{ display: 'none' }}>
+          <div ref={ref}>
+            <PrintBarcode
+              brand={brand}
+              name={name}
+              code={code}
+              type="Frames"
+              retail_price={retail_price}
+            />
+          </div>
+        </div>
         <button type="submit" onClick={handleDelete}>
           Delete
         </button>
+        <br />
+        <ReactToPrint
+          trigger={() => <button type="submit">Barcode</button>}
+          content={() => ref.current}
+          pageStyle={pageSize}
+        />
       </td>
     </tr>
   );

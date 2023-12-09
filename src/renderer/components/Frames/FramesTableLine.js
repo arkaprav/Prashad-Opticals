@@ -1,6 +1,8 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useApp } from '../../context/AppContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import PrintBarcode from '../Barcode/PrintBarcode';
+import ReactToPrint from 'react-to-print';
 
 export default function FramesTableLine({ frame }) {
   const [parent, enable] = useAutoAnimate();
@@ -30,10 +32,27 @@ export default function FramesTableLine({ frame }) {
     enable(true);
   }, [parent]);
 
+  const pageSize = `
+  @page{
+    size: 30mm 20mm;
+  }
+  @media all{
+    .pageBreak{
+      display: none;
+    }
+  }
+  @media print{
+    .pageBreak{
+      page-break-before: always;
+    }
+  }
+  `;
+
   const { deleteFrame, updateInventoryFrames } = useApp();
   const [newInventory, setNewInventory] = useState(inventory);
   const [click, setClicked] = useState(false);
   const [finalInventory, setFinalInventory] = useState(inventory);
+  const ref = useRef();
 
   const handleDelete = async () => {
     deleteFrame(ID);
@@ -98,9 +117,26 @@ export default function FramesTableLine({ frame }) {
       )}
       <td>{inventoryStatus}</td>
       <td>
+        <div style={{ display: 'none' }}>
+          <div ref={ref}>
+            <PrintBarcode
+              brand={brand}
+              name={name}
+              code={code}
+              type="Frames"
+              retail_price={retail_price}
+            />
+          </div>
+        </div>
         <button type="submit" onClick={handleDelete}>
           Delete
         </button>
+        <br />
+        <ReactToPrint
+          trigger={() => <button type="submit">Barcode</button>}
+          content={() => ref.current}
+          pageStyle={pageSize}
+        />
       </td>
     </tr>
   );

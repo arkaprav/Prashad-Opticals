@@ -34,7 +34,7 @@ export default function LensSearchResults({ handleSelect, searchName }) {
             handleSelect(
               len.ID,
               `${len.code}-${len.name}-${len.brand}`,
-              len.discount_price,
+              len.retail_price,
             );
           }}
         >
