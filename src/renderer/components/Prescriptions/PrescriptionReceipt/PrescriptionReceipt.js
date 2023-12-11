@@ -67,6 +67,15 @@ export default function PrescriptionReceipt({
   });
   return (
     <div className="background">
+      <div className="pid">Prasad Opticals</div>
+      <div className="pid">
+        Kaman Singh Ramu damu Path, district hospital road,{' '}
+      </div>
+      <div className="pid">beside Eden Dham Temple Darjeeling 734101</div>
+      <div className="pid">mobile - 753988074</div>
+      <br />
+      <br />
+      <br />
       <div className="pid">Prescription ID: {ID}</div>
       <div className="top">
         <div className="customer">
@@ -150,6 +159,9 @@ export default function PrescriptionReceipt({
             </tr>
           </tbody>
         </table>
+      </div>
+      <div className="signatures">
+        <div>Doctor&apos;s Signature</div>
       </div>
     </div>
   );

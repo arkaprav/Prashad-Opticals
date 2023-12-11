@@ -23,6 +23,15 @@ export default function OrderReceipt({
   });
   return (
     <div className="background">
+      <div className="pid">Prasad Opticals</div>
+      <div className="pid">
+        Kaman Singh Ramu damu Path, district hospital road,{' '}
+      </div>
+      <div className="pid">beside Eden Dham Temple Darjeeling 734101</div>
+      <div className="pid">mobile - 753988074</div>
+      <br />
+      <br />
+      <br />
       <div className="pid">Order ID: {ID}</div>
       <div className="top">
         <div className="customer">

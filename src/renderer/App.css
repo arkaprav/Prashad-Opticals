@@ -350,7 +350,7 @@ button{
   background-color: #c3c4ff;
 }
 .background{
-  padding: 100px 0px;
+  padding: 50px 0px;
   width: 100%;
   background-color: #fff;
 }
@@ -462,4 +462,16 @@ button{
 .barcode .main svg {
   width: 100px !important;
   height: 50px !important;
+}
+
+.signatures {
+  float: right;
+  margin-top: 100px;
+  margin-right: 100px;
+}
+
+.signatures div {
+  border-top: 1px solid #000;
+  margin: 50px 0px;
+  padding: 5px 30px;
 }
