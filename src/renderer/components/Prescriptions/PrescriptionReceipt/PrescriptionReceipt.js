@@ -162,6 +162,7 @@ export default function PrescriptionReceipt({
       </div>
       <div className="signatures">
         <div>Doctor&apos;s Signature</div>
+        <div>Optometris&apos;s Signature</div>
       </div>
     </div>
   );
