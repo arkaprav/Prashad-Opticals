@@ -14,12 +14,14 @@ export default function OrderTableLine({ order }) {
     orderTotal,
     amountPaid,
     products,
+    mop,
   } = order;
   const total = {
     discountedPrize,
     orderDiscount,
     orderTotal,
     amountPaid,
+    mop,
   };
   const { frames, lens, customers, updateOrderAmountPaid } = useApp();
   const [clicked, setClicked] = useState(false);
@@ -82,7 +84,7 @@ export default function OrderTableLine({ order }) {
           <br />
           Total: {prod.itemPrice} <br />
           Discount: {prod.itemDiscount} <br />
-          Discounted Price: {prod.itemDiscountedPrice}
+          Discounted Price: {prod.itemDiscountedPrice} <br />
         </div>
         <br />
         <br />
@@ -94,6 +96,7 @@ export default function OrderTableLine({ order }) {
       Order Total: {orderTotal} <br />
       Order Discount: {orderDiscount} <br />
       Order Discounted Prize: {discountedPrize} <br />
+      Mode of Payment: {mop}
     </div>
   );
   return (

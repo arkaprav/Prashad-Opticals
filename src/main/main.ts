@@ -132,7 +132,7 @@ const queries = [
   'CREATE TABLE IF NOT EXISTS lens(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, code VARCHAR(255), name VARCHAR(255), brand VARCHAR(255), color VARCHAR(255), coating VARCHAR(255), design VARCHAR(255), ind INT, quality INT, material VARCHAR(255), hsn_code VARCHAR(255), tax INT, base_price INT, purchase_price INT, retail_price INT, discount_price INT, inventory INT)',
   'CREATE TABLE IF NOT EXISTS customers(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255), mail VARCHAR(255), mobile VARCHAR(255), orders INT)',
   'CREATE TABLE IF NOT EXISTS prescription(ID INT NOT NULL AUTO_INCREMENT PRIMARY  KEY, createdAt VARCHAR(255), customerID INT, lensID INT, lenstype VARCHAR(255), prescription VARCHAR(10000));',
-  'CREATE TABLE IF NOT EXISTS orders(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, createdAt VARCHAR(255), products VARCHAR(5000), orderTotal INT, orderDiscount INT, discountedPrize INT, amountPaid INT, customerID INT)',
+  'CREATE TABLE IF NOT EXISTS orders(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, createdAt VARCHAR(255), products VARCHAR(5000), orderTotal INT, orderDiscount INT, discountedPrize INT, amountPaid INT, customerID INT, mop VARCHAR(255))',
 ];
 
 queries.forEach(async (query) => {
@@ -321,8 +321,9 @@ ipcMain.handle('addOrder', (event, args) => {
     discountedPrize,
     amountPaid,
     customerID,
+    mop,
   } = args;
-  const addOrder = `INSERT INTO orders(createdAt, products, orderTotal, orderDiscount, discountedPrize, amountPaid, customerID) VALUES('${createdAt}', '${products}', '${orderTotal}', '${orderDiscount}', '${discountedPrize}', '${amountPaid}', '${customerID}');`;
+  const addOrder = `INSERT INTO orders(createdAt, products, orderTotal, orderDiscount, discountedPrize, amountPaid, customerID, mop) VALUES('${createdAt}', '${products}', '${orderTotal}', '${orderDiscount}', '${discountedPrize}', '${amountPaid}', '${customerID}', '${mop}');`;
   return new Promise((res, rej) => {
     con.query(addOrder, (err, rows) => {
       if (err) rej(err);

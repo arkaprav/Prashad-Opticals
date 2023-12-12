@@ -17,6 +17,7 @@ export default function AddNewOrder({ handleCancel }) {
   const [orderDiscount, setOrderDiscount] = useState(0);
   const [orderAmountPaid, setOrderAmountPaid] = useState(0);
   const [hasLens, setHasLens] = useState(0);
+  const [mop, setMop] = useState('');
   useEffect(() => {
     enable(true);
   }, [parent]);
@@ -132,6 +133,7 @@ export default function AddNewOrder({ handleCancel }) {
             <th>Discounted Price</th>
             <th>Amount Paid</th>
             <th>Order Status</th>
+            <th>Mode of Payment</th>
           </tr>
         </thead>
         <tbody>
@@ -169,6 +171,15 @@ export default function AddNewOrder({ handleCancel }) {
               />
             </td>
             <td>{orderStatus}</td>
+            <td>
+              <input
+                type="text"
+                value={mop}
+                onChange={(e) => {
+                  setMop(e.target.value);
+                }}
+              />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -184,6 +195,7 @@ export default function AddNewOrder({ handleCancel }) {
       orderDiscountedTotal,
       orderAmountPaid,
       customerID,
+      mop,
     );
     if (res === true) {
       setCustomerType('existingUser');
@@ -191,6 +203,7 @@ export default function AddNewOrder({ handleCancel }) {
       setProducts([]);
       setOrderDiscount(0);
       setOrderAmountPaid(0);
+      setMop('');
       handleCancel();
     }
   };

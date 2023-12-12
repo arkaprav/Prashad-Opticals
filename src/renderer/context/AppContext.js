@@ -310,6 +310,7 @@ function Provider({ children }) {
     discountedPrize,
     amountPaid,
     customerID,
+    mop,
   ) => {
     const data = {
       createdAt,
@@ -319,6 +320,7 @@ function Provider({ children }) {
       discountedPrize,
       amountPaid,
       customerID,
+      mop,
     };
     const prodData = products;
     const passData = {
@@ -329,6 +331,7 @@ function Provider({ children }) {
       discountedPrize,
       amountPaid,
       customerID,
+      mop,
     };
     let updateInventory = [];
     for (let i = 0; i < prodData.length; i++) {

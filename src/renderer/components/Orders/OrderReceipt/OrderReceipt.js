@@ -6,7 +6,8 @@ export default function OrderReceipt({
   totals,
 }) {
   const { name, address, mail, mobile } = customer[0];
-  const { orderTotal, orderDiscount, discountedPrize, amountPaid } = totals;
+  const { orderTotal, orderDiscount, discountedPrize, amountPaid, mop } =
+    totals;
   const prodOut = products.map((prod) => {
     return (
       <tr>
@@ -91,6 +92,10 @@ export default function OrderReceipt({
         <p>
           <span>Amount Paid:</span>
           <span>{amountPaid}</span>
+        </p>
+        <p>
+          <span>Mode of Payment:</span>
+          <span>{mop}</span>
         </p>
       </div>
     </div>
