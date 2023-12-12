@@ -67,7 +67,7 @@ export default function PrescriptionReceipt({
   });
   return (
     <div className="background">
-      <div className="pid">Prasad Opticals</div>
+      <div className="pid"><h1>Prasad Opticals</h1></div>
       <div className="pid">
         Kaman Singh Ramu damu Path, district hospital road,{' '}
       </div>
@@ -162,7 +162,7 @@ export default function PrescriptionReceipt({
       </div>
       <div className="signatures">
         <div>Doctor&apos;s Signature</div>
-        <div>Optometris&apos;s Signature</div>
+        <div>Optometrist&apos;s Signature</div>
       </div>
     </div>
   );
