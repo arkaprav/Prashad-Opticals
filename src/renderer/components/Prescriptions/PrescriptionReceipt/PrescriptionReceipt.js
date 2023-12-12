@@ -67,7 +67,9 @@ export default function PrescriptionReceipt({
   });
   return (
     <div className="background">
-      <div className="pid"><h1>Prasad Opticals</h1></div>
+      <div className="pid">
+        <h1>Prasad Opticals</h1>
+      </div>
       <div className="pid">
         Kaman Singh Ramu damu Path, district hospital road,{' '}
       </div>

@@ -23,7 +23,9 @@ export default function OrderReceipt({
   });
   return (
     <div className="background">
-      <div className="pid">Prasad Opticals</div>
+      <div className="pid">
+        <h1>Prasad Opticals</h1>
+      </div>
       <div className="pid">
         Kaman Singh Ramu damu Path, district hospital road,{' '}
       </div>
