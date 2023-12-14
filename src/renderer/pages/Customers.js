@@ -2,6 +2,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import Layout from '../components/Layout';
 import { useEffect, useState } from 'react';
 import CustomersTable from '../components/Customers/CustomersTable';
+import ImportCustomer from '../components/Customers/addCustomers/importCustomers';
 
 export default function Customers(params) {
   const [searchName, setSearchName] = useState('');
@@ -34,6 +35,7 @@ export default function Customers(params) {
             )}
           </div>
         </div>
+        <ImportCustomer />
         <CustomersTable searchName={searchName} />
       </div>
     </Layout>
