@@ -9,26 +9,9 @@ export default function PrescriptionReceipt({
   lenstype,
   prescription,
 }) {
-  const { customers, lens } = useApp();
+  const { customers, lens, contactLens } = useApp();
   const [patient, setPatient] = useState([]);
   const [products, setProducts] = useState([]);
-  const {
-    rightSph,
-    rightCyl,
-    rightAxis,
-    rightPD,
-    rightVA,
-    rightPrism,
-    leftSph,
-    leftCyl,
-    leftAxis,
-    leftPD,
-    leftVA,
-    leftPrism,
-    nearAddRight,
-    nearAddLeft,
-    IPD,
-  } = JSON.parse(prescription);
   let { name, address, mail, mobile } = {
     name: null,
     address: null,
@@ -43,19 +26,171 @@ export default function PrescriptionReceipt({
       }
     }
     setPatient(cust);
-    setProducts(
-      lens.filter((len) => {
-        return len.ID === lensID;
-      }),
+    if (lenstype === 'Lens'){
+      setProducts(
+        lens.filter((len) => {
+          return len.ID === lensID;
+        }),
+      );
+    }
+    if (lenstype === 'ContactLens'){
+      setProducts(
+        contactLens.filter((len) => {
+          return len.ID === lensID;
+        }),
+      );
+    }
+  }, [customerID, lensID, lenstype]);
+  let prescriptionTable = null;
+  if (lenstype === 'Lens') {
+    const {
+      rightSph,
+      rightCyl,
+      rightAxis,
+      rightPD,
+      rightVA,
+      rightPrism,
+      leftSph,
+      leftCyl,
+      leftAxis,
+      leftPD,
+      leftVA,
+      leftPrism,
+      nearAddRight,
+      nearAddLeft,
+      IPD,
+    } = JSON.parse(prescription);
+    prescriptionTable = (
+      <>
+        <table>
+          <thead>
+            <tr>
+              <th>Eyes</th>
+              <th>Sph</th>
+              <th>Cyl</th>
+              <th>Axis</th>
+              <th>PD</th>
+              <th>VA</th>
+              <th>Prism</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Right</td>
+              <td>{rightSph}</td>
+              <td>{rightCyl}</td>
+              <td>{rightAxis}</td>
+              <td>{rightPD}</td>
+              <td>{rightVA}</td>
+              <td>{rightPrism}</td>
+            </tr>
+            <tr>
+              <td>Left</td>
+              <td>{leftSph}</td>
+              <td>{leftCyl}</td>
+              <td>{leftAxis}</td>
+              <td>{leftPD}</td>
+              <td>{leftVA}</td>
+              <td>{leftPrism}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <thead>
+            <tr>
+              <th>Near Add Right</th>
+              <th>Near Add Left</th>
+              <th>IPD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{nearAddLeft}</td>
+              <td>{nearAddRight}</td>
+              <td>{IPD}</td>
+            </tr>
+          </tbody>
+        </table>
+      </>
     );
-  }, [customerID, lensID]);
+  }
+  if (lenstype === 'ContactLens') {
+    console.log(lenstype === 'ContactLens');
+    const {
+      rightDistSph,
+      rightDistCyl,
+      rightDistAxis,
+      leftDistSph,
+      leftDistCyl,
+      leftDistAxis,
+      rightNearSph,
+      rightNearCyl,
+      rightNearAxis,
+      leftNearSph,
+      leftNearCyl,
+      leftNearAxis,
+      AddRight,
+      AddLeft,
+    } = JSON.parse(prescription);
+    prescriptionTable = (
+      <>
+        <table>
+          <thead>
+            <tr>
+              <th>Eyes</th>
+              <th>Dist Sph</th>
+              <th>Dist Cyl</th>
+              <th>Dist Axis</th>
+              <th>Near Sph</th>
+              <th>Near Cyl</th>
+              <th>Near Axis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Right</td>
+              <td>{rightDistSph}</td>
+              <td>{rightDistCyl}</td>
+              <td>{rightDistAxis}</td>
+              <td>{rightNearSph}</td>
+              <td>{rightNearCyl}</td>
+              <td>{rightNearAxis}</td>
+            </tr>
+            <tr>
+              <td>Left</td>
+              <td>{leftDistSph}</td>
+              <td>{leftDistCyl}</td>
+              <td>{leftDistAxis}</td>
+              <td>{leftNearSph}</td>
+              <td>{leftNearCyl}</td>
+              <td>{leftNearAxis}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <thead>
+            <tr>
+              <th>Add Right</th>
+              <th>Add Left</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{AddLeft}</td>
+              <td>{AddRight}</td>
+            </tr>
+          </tbody>
+        </table>
+      </>
+    );
+  }
   if (patient !== []) {
     name = patient.name;
     address = patient.address;
     mail = patient.mail;
     mobile = patient.mobile;
   }
-  const prodOut = products.map((prod) => {
+  const [prodOut] = products.map((prod) => {
     return (
       <tr>
         <td>{prod.code}</td>
@@ -112,55 +247,7 @@ export default function PrescriptionReceipt({
           </thead>
           <tbody>{prodOut}</tbody>
         </table>
-        <table>
-          <thead>
-            <tr>
-              <th>Eyes</th>
-              <th>Sph</th>
-              <th>Cyl</th>
-              <th>Axis</th>
-              <th>PD</th>
-              <th>VA</th>
-              <th>Prism</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Right</td>
-              <td>{rightSph}</td>
-              <td>{rightCyl}</td>
-              <td>{rightAxis}</td>
-              <td>{rightPD}</td>
-              <td>{rightVA}</td>
-              <td>{rightPrism}</td>
-            </tr>
-            <tr>
-              <td>Left</td>
-              <td>{leftSph}</td>
-              <td>{leftCyl}</td>
-              <td>{leftAxis}</td>
-              <td>{leftPD}</td>
-              <td>{leftVA}</td>
-              <td>{leftPrism}</td>
-            </tr>
-          </tbody>
-        </table>
-        <table>
-          <thead>
-            <tr>
-              <th>Near Add Right</th>
-              <th>Near Add Left</th>
-              <th>IPD</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{nearAddLeft}</td>
-              <td>{nearAddRight}</td>
-              <td>{IPD}</td>
-            </tr>
-          </tbody>
-        </table>
+        {prescriptionTable}
       </div>
       <div className="signatures">
         <div>Doctor&apos;s Signature</div>

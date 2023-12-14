@@ -6,7 +6,8 @@ import OrderCustomerTable from './orderCustomerField/OrderCustomer/OrderCustomer
 import OrderProductSearch from './OrderProductField/OrderProductSearch/OrderProductSearch';
 import OrderProductTable from './OrderProductField/OrderProductTable/OrderProductTable';
 import { useApp } from '../../../context/AppContext';
-import OrderLenPrescription from './OrderPrescription/OrderPrescription';
+import OrderLenPrescription from './OrderPrescription/OrderLenPrescription';
+import OrderContactLenPrescription from './OrderPrescription/OrderContactLensPrescription';
 
 export default function AddNewOrder({ handleCancel }) {
   const { addOrder } = useApp();
@@ -25,7 +26,7 @@ export default function AddNewOrder({ handleCancel }) {
     setcustomerID(id);
   };
   const handleAddProduct = (ID, type, itemPrice) => {
-    if (type === 'Lens') setHasLens(hasLens - 1);
+    if (type === 'Lens' || type === 'ContactLens') setHasLens(hasLens - 1);
     const data = {
       ID,
       type,
@@ -79,7 +80,7 @@ export default function AddNewOrder({ handleCancel }) {
   };
 
   const handleRemoveProduct = (ID, type) => {
-    if (type === 'Lens') setHasLens(hasLens + 1);
+    if (type === 'Lens' || type === 'ContactLens') setHasLens(hasLens + 1);
     setProducts(
       products.filter((product) => {
         return !(product.ID === ID && product.type === type);
@@ -101,6 +102,16 @@ export default function AddNewOrder({ handleCancel }) {
     if (product.type === 'Lens') {
       return (
         <OrderLenPrescription
+          key={product.ID}
+          customerID={customerID}
+          lensID={product.ID}
+          handleAddPrescription={handleAddPrescription}
+        />
+      );
+    }
+    if (product.type === 'ContactLens') {
+      return (
+        <OrderContactLenPrescription
           key={product.ID}
           customerID={customerID}
           lensID={product.ID}

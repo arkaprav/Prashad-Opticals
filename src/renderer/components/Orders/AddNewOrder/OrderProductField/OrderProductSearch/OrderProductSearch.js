@@ -2,6 +2,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useEffect, useState } from 'react';
 import FramesSearchField from './Frames/FramesSearchField';
 import LensSearchField from './Lens/LensSearchField';
+import ContactLensSearchField from './ContactLens/ContactLensSearchField';
 
 export default function OrderProductSearch({ handleAddProduct }) {
   const [parent, enable] = useAutoAnimate({ duration: 350 });
@@ -27,12 +28,16 @@ export default function OrderProductSearch({ handleAddProduct }) {
         >
           <option value="Frames">Frames</option>
           <option value="Lens">Lens</option>
+          <option value="ContactLens">Contact Lens</option>
         </select>
         {orderProductType === 'Frames' && (
           <FramesSearchField handleAddFrames={handleAddNewProduct} />
         )}
         {orderProductType === 'Lens' && (
           <LensSearchField handleAddLens={handleAddNewProduct} />
+        )}
+        {orderProductType === 'ContactLens' && (
+          <ContactLensSearchField handleAddLens={handleAddNewProduct} />
         )}
       </div>
     </div>

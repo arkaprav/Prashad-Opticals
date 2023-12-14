@@ -3,12 +3,13 @@ import { useApp } from '../../context/AppContext';
 import PrescriptionLensTable from './PrescriptionLensTable';
 import PrescriptionReceipt from './PrescriptionReceipt/PrescriptionReceipt';
 import ReactToPrint from 'react-to-print';
+import PrescriptionContactLensTable from './PrescriptionContactLensTable';
 
 export default function PrescriptionTableLine({ prescriptions }) {
   const { ID, createdAt, customerID, lensID, lenstype, prescription } =
     prescriptions;
   const ref = useRef();
-  const { customers, lens } = useApp();
+  const { customers, lens, contactLens } = useApp();
   const [patient, setPatient] = useState('');
   const [lensD, setLensD] = useState('');
   useEffect(() => {
@@ -36,6 +37,19 @@ export default function PrescriptionTableLine({ prescriptions }) {
         }),
       );
     }
+    if (lenstype === 'ContactLens') {
+      setLensD(
+        contactLens.map((len) => {
+          if (len.ID === lensID) {
+            return (
+              <>
+                {len.name} <br /> {len.brand} <br /> {len.code}
+              </>
+            );
+          }
+        }),
+      );
+    }
   }, [customerID, lensID, lenstype]);
   return (
     <tr>
@@ -46,6 +60,9 @@ export default function PrescriptionTableLine({ prescriptions }) {
       <td>
         {lenstype === 'Lens' && (
           <PrescriptionLensTable prescription={prescription} />
+        )}
+        {lenstype === 'ContactLens' && (
+          <PrescriptionContactLensTable prescription={prescription} />
         )}
       </td>
       <td>

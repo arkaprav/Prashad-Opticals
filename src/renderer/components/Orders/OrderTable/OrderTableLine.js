@@ -23,7 +23,7 @@ export default function OrderTableLine({ order }) {
     amountPaid,
     mop,
   };
-  const { frames, lens, customers, updateOrderAmountPaid } = useApp();
+  const { frames, lens, contactLens, customers, updateOrderAmountPaid } = useApp();
   const [clicked, setClicked] = useState(false);
   const [newAmountPaid, setNewAmountPaid] = useState(amountPaid);
   const [finalAmountPaid, setFinalamountPaid] = useState(amountPaid);
@@ -44,6 +44,18 @@ export default function OrderTableLine({ order }) {
     }
     if (parsedProducts[i].type === 'Lens') {
       const [prod] = lens.filter((len) => {
+        return len.ID === parsedProducts[i].ID;
+      });
+      prod.quantity = parseInt(parsedProducts[i].quantity);
+      prod.itemDiscount = parsedProducts[i].itemDiscount;
+      prod.itemDiscountedPrice = parsedProducts[i].itemDiscountedPrice;
+      prod.itemDiscount = parsedProducts[i].itemDiscount;
+      prod.itemPrice = parsedProducts[i].itemPrice;
+      prod.type = parsedProducts[i].type;
+      prodout.push(prod);
+    }
+    if (parsedProducts[i].type === 'ContactLens') {
+      const [prod] = contactLens.filter((len) => {
         return len.ID === parsedProducts[i].ID;
       });
       prod.quantity = parseInt(parsedProducts[i].quantity);
