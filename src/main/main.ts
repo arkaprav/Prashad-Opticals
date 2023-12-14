@@ -130,8 +130,9 @@ const queries = [
   'USE optical_store',
   'CREATE TABLE IF NOT EXISTS frames(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, code VARCHAR(255), name VARCHAR(255), brand VARCHAR(255), gender VARCHAR(255), color VARCHAR(255), size INT, type VARCHAR(255), shape VARCHAR(255), material VARCHAR(255), temple VARCHAR(255), bridge_size VARCHAR(255), hsn_code VARCHAR(255), tax INT, base_price INT, purchase_price INT, retail_price INT, discount_price INT, inventory INT)',
   'CREATE TABLE IF NOT EXISTS lens(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, code VARCHAR(255), name VARCHAR(255), brand VARCHAR(255), color VARCHAR(255), coating VARCHAR(255), design VARCHAR(255), ind INT, quality INT, material VARCHAR(255), hsn_code VARCHAR(255), tax INT, base_price INT, purchase_price INT, retail_price INT, discount_price INT, inventory INT)',
+  'CREATE TABLE IF NOT EXISTS contact_lens(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, code VARCHAR(255), name VARCHAR(255), brand VARCHAR(255), color VARCHAR(255), number INT, quality INT, hsn_code VARCHAR(255), tax INT, base_price INT, purchase_price INT, retail_price INT, discount_price INT, inventory INT)',
   'CREATE TABLE IF NOT EXISTS customers(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255), mail VARCHAR(255), mobile VARCHAR(255), orders INT)',
-  'CREATE TABLE IF NOT EXISTS prescription(ID INT NOT NULL AUTO_INCREMENT PRIMARY  KEY, createdAt VARCHAR(255), customerID INT, lensID INT, lenstype VARCHAR(255), prescription VARCHAR(10000));',
+  'CREATE TABLE IF NOT EXISTS prescription(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, createdAt VARCHAR(255), customerID INT, lensID INT, lenstype VARCHAR(255), prescription VARCHAR(10000));',
   'CREATE TABLE IF NOT EXISTS orders(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, createdAt VARCHAR(255), products VARCHAR(5000), orderTotal INT, orderDiscount INT, discountedPrize INT, amountPaid INT, customerID INT, mop VARCHAR(255))',
 ];
 
@@ -258,6 +259,64 @@ ipcMain.handle('updateInventoryLens', async (event, args) => {
 
 ipcMain.handle('deleteLens', (event, args) => {
   const deleteLens = `DELETE FROM lens WHERE ID=${args};`;
+  return new Promise((res, rej) => {
+    con.query(deleteLens, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+//contact_lens
+
+ipcMain.handle('fetchContactLens', async (event, args) => {
+  const query = `SELECT * FROM contact_lens;`;
+  return new Promise((res, rej) => {
+    con.query(query, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('addContactLens', async (event, args) => {
+  const {
+    code,
+    name,
+    brand,
+    color,
+    number,
+    quality,
+    hsn_code,
+    tax,
+    base_price,
+    purchase_price,
+    retail_price,
+    discount_price,
+    inventory,
+  } = args;
+  const addLens = `INSERT INTO contact_lens(code, name, brand, color, number, quality, hsn_code, tax, base_price, purchase_price, retail_price, discount_price, inventory) VALUES('${code}','${name}','${brand}','${color}','${number}','${quality}','${hsn_code}','${tax}','${base_price}','${purchase_price}','${retail_price}','${discount_price}','${inventory}')`;
+  return new Promise((res, rej) => {
+    con.query(addLens, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('updateInventoryContactLens', async (event, args) => {
+  const { ID, inventory } = args;
+  const query = `UPDATE contact_lens SET inventory='${inventory}' WHERE ID=${ID};`;
+  return new Promise((res, rej) => {
+    con.query(query, (err, rows) => {
+      if (err) rej(err);
+      res(rows);
+    });
+  });
+});
+
+ipcMain.handle('deleteContactLens', (event, args) => {
+  const deleteLens = `DELETE FROM contact_lens WHERE ID=${args};`;
   return new Promise((res, rej) => {
     con.query(deleteLens, (err, rows) => {
       if (err) rej(err);

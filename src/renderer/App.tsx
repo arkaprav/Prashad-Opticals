@@ -6,6 +6,7 @@ import Orders from './pages/Orders';
 import Customers from './pages/Customers';
 import Lens from './pages/Lens';
 import Prescriptions from './pages/Prescriptions';
+import ContactLens from './pages/ContactLens';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/lens" element={<Lens />} />
+          <Route path="/contactlens" element={<ContactLens />} />
           <Route path="/prescriptions" element={<Prescriptions />} />
         </Routes>
       </Router>

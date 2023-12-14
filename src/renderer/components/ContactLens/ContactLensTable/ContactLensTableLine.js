@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
 import PrintBarcode from '../../Barcode/PrintBarcode';
 
-export default function LensTableLine({ len }) {
+export default function ContactLensTableLine({ len }) {
   const [parent, enable] = useAutoAnimate({ duration: 350 });
   const {
     ID,
@@ -12,9 +12,7 @@ export default function LensTableLine({ len }) {
     name,
     brand,
     color,
-    coating,
-    design,
-    index,
+    number,
     quality,
     hsn_code,
     tax,
@@ -29,7 +27,7 @@ export default function LensTableLine({ len }) {
     enable(true);
   }, [parent]);
 
-  const { deleteLen, updateInventoryLens } = useApp();
+  const { deleteContactLens, updateInventoryContactLens } = useApp();
   const [newInventory, setNewInventory] = useState(inventory);
   const [click, setClicked] = useState(false);
   const [finalInventory, setFinalInventory] = useState(inventory);
@@ -53,11 +51,11 @@ export default function LensTableLine({ len }) {
   `;
 
   const handleDelete = async () => {
-    deleteLen(ID);
+    deleteContactLens(ID);
   };
 
   const handleInventoryChange = async () => {
-    const res = await updateInventoryLens(ID, newInventory);
+    const res = await updateInventoryContactLens(ID, newInventory);
     if (res === true) {
       setFinalInventory(newInventory);
       setClicked(false);
@@ -73,7 +71,7 @@ export default function LensTableLine({ len }) {
     <tr key={ID} ref={parent}>
       <td>{code}</td>
       <td>
-        {name}-{brand}-{color}-{coating}-{design}-{index}-{quality}
+        {name}-{brand}-{color}-{number}-{quality}
       </td>
       <td>
         Base Price: {base_price}
@@ -120,7 +118,7 @@ export default function LensTableLine({ len }) {
               brand={brand}
               name={name}
               code={code}
-              type="Lens"
+              type="ContactLens"
               retail_price={retail_price}
             />
           </div>

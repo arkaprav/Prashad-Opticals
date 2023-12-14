@@ -9,6 +9,7 @@ function useApp() {
 function Provider({ children }) {
   const [frames, setFrames] = useState([]);
   const [lens, setLens] = useState([]);
+  const [contactLens, setContactLens] = useState([]);
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
@@ -23,6 +24,15 @@ function Provider({ children }) {
       window.electron.ipcRenderer.invoke('fetchLens', 'fetch', (args) => {
         setLens(args);
       });
+    }, 1);
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke(
+        'fetchContactLens',
+        'fetch',
+        (args) => {
+          setContactLens(args);
+        },
+      );
     }, 1);
     setTimeout(() => {
       window.electron.ipcRenderer.invoke('fetchOrders', 'fetch', (args) => {
@@ -189,7 +199,7 @@ function Provider({ children }) {
       window.electron.ipcRenderer.invoke('addLens', data, async (args) => {
         let lastIndex = 0;
         if (lens.length !== 0) {
-          const lastIndex = lens[lens.length - 1].ID;
+          lastIndex = lens[lens.length - 1].ID;
         }
         const { affectedRows, insertId } = args;
         if (affectedRows === 1) {
@@ -237,6 +247,104 @@ function Provider({ children }) {
         if (affectedRows === 1) {
           setLens(
             lens.filter((len) => {
+              return len.ID !== ID;
+            }),
+          );
+        }
+      });
+    });
+    return true;
+  };
+
+  //contact_lens
+
+  const addContactLens = (
+    code,
+    name,
+    brand,
+    color,
+    number,
+    quality,
+    hsn_code,
+    tax,
+    base_price,
+    purchase_price,
+    retail_price,
+    discount_price,
+    inventory,
+  ) => {
+    const data = {
+      code,
+      name,
+      brand,
+      color,
+      number,
+      quality,
+      hsn_code,
+      tax,
+      base_price,
+      purchase_price,
+      retail_price,
+      discount_price,
+      inventory,
+    };
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke(
+        'addContactLens',
+        data,
+        async (args) => {
+          let lastIndex = 0;
+          if (lens.length !== 0) {
+            lastIndex = lens[lens.length - 1].ID;
+          }
+          const { affectedRows, insertId } = args;
+          if (affectedRows === 1) {
+            if (insertId !== lastIndex) {
+              data.ID = insertId;
+              await setContactLens([...contactLens, data]);
+              console.log(contactLens);
+            }
+          }
+        },
+      );
+    }, 1);
+    return true;
+  };
+
+  const updateInventoryContactLens = (ID, outinventory) => {
+    const data = {
+      ID,
+      inventory: outinventory,
+    };
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke(
+        'updateInventoryContactLens',
+        data,
+        (args) => {
+          const { affectedRows } = args;
+          if (affectedRows === 1) {
+            setContactLens(
+              contactLens.map((len) => {
+                if (len.ID === ID) {
+                  len.inventory = outinventory;
+                }
+                return len;
+              }),
+            );
+          }
+        },
+      );
+    });
+    return true;
+  };
+
+  const deleteContactLens = (ID) => {
+    setTimeout(() => {
+      window.electron.ipcRenderer.invoke('deleteContactLens', ID, (args) => {
+        const { affectedRows } = args;
+        if (affectedRows === 1) {
+          setContactLens(
+            contactLens.filter((len) => {
               return len.ID !== ID;
             }),
           );
@@ -359,6 +467,18 @@ function Provider({ children }) {
         };
         updateInventory.push(inventoryData);
       }
+      if (prodData[i].type === 'ContactLens') {
+        const [prod] = contactLens.filter((len) => {
+          return len.ID === prodData[i].ID;
+        });
+        const newInventory = prod.inventory - 1;
+        const inventoryData = {
+          ID: prodData[i].ID,
+          type: prodData[i].type,
+          newInventory,
+        };
+        updateInventory.push(inventoryData);
+      }
     }
     const [cust] = customers.filter((customer) => {
       return customer.ID === customerID;
@@ -380,6 +500,12 @@ function Provider({ children }) {
             }
             if (updateInventory[i].type === 'Lens') {
               updateInventoryLens(
+                updateInventory[i].ID,
+                updateInventory[i].newInventory,
+              );
+            }
+            if (updateInventory[i].type === 'ContactLens') {
+              updateInventoryContactLens(
                 updateInventory[i].ID,
                 updateInventory[i].newInventory,
               );
@@ -455,6 +581,10 @@ function Provider({ children }) {
         addLens,
         updateInventoryLens,
         deleteLen,
+        contactLens,
+        addContactLens,
+        updateInventoryContactLens,
+        deleteContactLens,
         orders,
         addOrder,
         customers,
